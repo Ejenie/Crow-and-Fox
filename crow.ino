@@ -5,6 +5,10 @@
 #include <Motors.h>
 //блютуууууууууууууууууууууууз
 
+#define CLOSE_LEFT_EYE 60
+#define CLOSE_RIGHT_EYE 0
+#define DELTA_EYE 60
+
 Servo tail;
 Servo wing_Left;
 Servo wing_Right;
@@ -20,6 +24,28 @@ DFRobot_MLX90614_I2C sensor(0x00, &Wire);
 Motors motorA = Motors(10, 23, 22, 0, 48); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 int condition;
+
+void eyeLeft(int desiredPosition) {
+  static int currentPosition = 0;
+
+  if (currentPosition > desiredPosition)
+    currentPosition -= 1;
+  else if (currentPosition < desiredPosition)
+    currentPosition += 1;
+
+  lid_Left.write(CLOSE_LEFT_EYE - currentPosition);
+}
+
+void eyeRight(int desiredPosition) {
+  static int currentPosition = 0;
+
+  if (currentPosition > desiredPosition)
+    currentPosition -= 1;
+  else if (currentPosition < desiredPosition)
+    currentPosition += 1;
+
+  lid_Right.write(CLOSE_RIGHT_EYE + currentPosition);
+}
 void setup() {
   Serial.begin(9600);
   Serial2.begin(9600);    //камера
@@ -39,7 +65,7 @@ void loop() {
   switch (condition) {
     case 0:   //сидит на дереве, держит сыр
     case 1:   //Ворона поворачивается в сторону Лисицы (движения Вороны изображающие радость),всё ещё держит сыр
-      if (Serial2.available() > 0) {    
+      if (Serial2.available() > 0) {
         int pos = Serial2.read();
         Serial.print(nMotorEncoder[0]);   //оно еще не работает, но я допишу
         Serial.print("  ");
@@ -50,7 +76,10 @@ void loop() {
         Serial.println(nMotorEncoder[3]);
         motorA.set(pos);
       }
+      break;
     case 2:   //Ворона открывает клюв, сыр выбрасывается к Лисице
+      break;
     case 3:   //Ворона сидит без сыра, грутсно опустив голову. При поглажеваниях ее головы, шевелит крыльями и веками глаз
+      break;
   }
 }
