@@ -3,11 +3,17 @@
 #include <FastLED.h>
 #include <DFRobot_MLX90614.h>
 #include <Motors.h>
+#include <Wire.h>
+#include <SparkFun_APDS9960.h>
 //блютуууууууууууууууууууууууз
 
 #define CLOSE_LEFT_EYE 60
 #define CLOSE_RIGHT_EYE 0
 #define DELTA_EYE 60
+
+
+#define INTR_PIN 2 // порт прерывания
+SparkFun_APDS9960 apds = SparkFun_APDS9960(); // создаем объект apds
 
 Servo tail;
 Servo wing_Left;
@@ -24,28 +30,8 @@ DFRobot_MLX90614_I2C sensor(0x00, &Wire);
 Motors motorA = Motors(10, 23, 22, 0, 48); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 int condition;
+int isr_flag = 0;
 
-void eyeLeft(int desiredPosition) {
-  static int currentPosition = 0;
-
-  if (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  else if (currentPosition < desiredPosition)
-    currentPosition += 1;
-
-  lid_Left.write(CLOSE_LEFT_EYE - currentPosition);
-}
-
-void eyeRight(int desiredPosition) {
-  static int currentPosition = 0;
-
-  if (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  else if (currentPosition < desiredPosition)
-    currentPosition += 1;
-
-  lid_Right.write(CLOSE_RIGHT_EYE + currentPosition);
-}
 void setup() {
   Serial.begin(9600);
   Serial2.begin(9600);    //камера
@@ -55,10 +41,14 @@ void setup() {
   sensor.setI2CAddress(0x00);
   sensor.setMeasuredParameters(sensor.eIIR100, sensor.eFIR1024);
 
-  sensor.enterSleepMode();  //импульс
+  sensor.enterSleepMode();  //импульс датчика тепла
   delay(50);
   sensor.enterSleepMode(false);
   delay(200);
+
+
+  // инициализируем прерывание на спад
+  attachInterrupt(1, interruptRoutine, FALLING);  //прерывание датчика жестов
 }
 
 void loop() {
@@ -81,5 +71,6 @@ void loop() {
       break;
     case 3:   //Ворона сидит без сыра, грутсно опустив голову. При поглажеваниях ее головы, шевелит крыльями и веками глаз
       break;
+    default: break;
   }
 }
