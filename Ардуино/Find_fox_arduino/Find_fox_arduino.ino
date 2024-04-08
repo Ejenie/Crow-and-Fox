@@ -8,8 +8,6 @@ float kp = 1.5, kd = 0, ki = 0.001, u = 0, i = 0;
 int pos = 0, err_old = 0, vel = 40, err = 0;
 uint32_t myTimer = millis();
 
-
-
 void setup() {
   Serial.begin(9600);
   Serial3.begin(9600);

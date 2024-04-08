@@ -1,8 +1,10 @@
-#define CLOSE_LEFT_EYE 60   
-#define CLOSE_RIGHT_EYE 0
-#define DELTA_EYE 60
+#define CLOSE_LEFT_WING 0
+#define CLOSE_RIGHT_WING 0
 
-void eyeLeft(int desiredPosition) {
+Servo wingL;
+Servo wingR;
+
+void wingLeft(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -10,10 +12,10 @@ void eyeLeft(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lid_Left.write(CLOSE_LEFT_EYE - currentPosition);
+  wingL.write(CLOSE_LEFT_WING - currentPosition);
 }
 
-void eyeRight(int desiredPosition) {
+void wingRight(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -21,5 +23,5 @@ void eyeRight(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lid_Right.write(CLOSE_RIGHT_EYE + currentPosition);
+  wingR.write(CLOSE_RIGHT_WING - currentPosition);
 }
