@@ -10,25 +10,28 @@
 
 DFRobotDFPlayerMini player_crow;
 
-int condition;
+int currentConditionCrows;
+int pinPWMRotaionCrows = 14;
+int pinDIGRotaionCrows = 48;
+int fileTransferSpeed = 9600;
 
-void setup() {
-  Serial.begin(9600);
-  Serial2.begin(9600);    //камера
-  Serial3.begin(9600);    //плеер
+void setup() {                         // как start
+  Serial.begin(fileTransferSpeed);
+  Serial2.begin(fileTransferSpeed);    //камера
+  Serial3.begin(fileTransferSpeed);    //плеер
 
   ann_handleGesture();
   ann_wire();
 
-  ann_motor(14, 48);
-  ann_enc(48);
+  ann_motor(pinPWMRotaionCrows, pinDIGRotaionCrows);
+  ann_enc(pinDIGRotaionCrows);
 }
 
-void loop() {
-  switch (condition) {
+void loop() {                         // как update
+  switch (currentConditionCrows) {
     case 0:   //сидит на дереве, держит сыр
+      break;
     case 1:   //Ворона поворачивается в сторону Лисицы (движения Вороны изображающие радость),всё ещё держит сыр
-
       break;
     case 2:   //Ворона открывает клюв, сыр выбрасывается к Лисице
       break;
