@@ -1,14 +1,18 @@
-#define CLOSE_EYE 0
+int currentPosition = 0;
+const int closeEye = 0;
 
-Servo lids;
+Servo lidLeft;
+Servo lidRight;
 
-void eyes(int desiredPosition) {
-  static int currentPosition = 0;
+void moveEyes(int desiredPosition) {
 
   if (currentPosition > desiredPosition)
     currentPosition -= 1;
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lids.write(CLOSE_EYE - currentPosition);
+  lidLeft.write(- (closeEye - currentPosition));
+  lidRight.write(closeEye - currentPosition);
 }
+
+
