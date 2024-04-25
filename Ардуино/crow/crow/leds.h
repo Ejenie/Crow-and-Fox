@@ -2,7 +2,7 @@
 #include <DFRobotDFPlayerMini.h>
 
 const int countLeds = 8;
-CRGB eyesLeds[countLeds];
+CRGB eyesLeds[countLeds]; 
 
 int valOnModule(int val, int mod) {
   return (val + mod) % mod;
@@ -11,8 +11,8 @@ int valOnModule(int val, int mod) {
 void permanentLeds(int pinLEDEye, unsigned int color) {
   for (int i = 0; i < countLeds; ++i) {
     eyesLeds[i] = color;
+    FastLED.show();
   }
-  FastLED.show();
 }
 
 void changeLeds(int pinLEDEye, unsigned int color, int countOnLeds, int timePause) {

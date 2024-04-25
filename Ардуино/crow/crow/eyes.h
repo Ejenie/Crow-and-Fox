@@ -11,7 +11,7 @@ void moveEyes(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lidLeft.write(- (closeEye - currentPosition));
+  lidLeft.write(-(closeEye - currentPosition));
   lidRight.write(closeEye - currentPosition);
 }
 
