@@ -1,4 +1,10 @@
-void eyeLeft(int desiredPosition) {
+int currentPosition = 0;
+const int closeEye = 0;
+
+Servo lidLeft;
+Servo lidRight;
+
+void moveLidLeft(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -6,10 +12,10 @@ void eyeLeft(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lid_Left.write(CLOSE_LEFT_EYE - currentPosition);
+  lidLeft.write(currentPosition);
 }
 
-void eyeRight(int desiredPosition) {
+void moveLidRight(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -17,5 +23,5 @@ void eyeRight(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  lid_Right.write(CLOSE_RIGHT_EYE + currentPosition);
+  lidRight.write(currentPosition);
 }

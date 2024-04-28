@@ -1,7 +1,7 @@
 #include <Motors.h>
 #include "encoder.h"
 #include "interesting_functions.h"
-Motors motorA = Motors(9, 23, 22, 5, 48); //pinPWM, pinA, pinB, interruptNumber, directionPin
+Motors motorA = Motors(4, 23, 22, 5, 48); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 bool direct = true;
 float kp = 1.5, kd = 0, ki = 0.001, u = 0, i = 0;
@@ -10,6 +10,7 @@ uint32_t myTimer = millis();
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Hello");
   Serial3.begin(9600);
   pinMode(14, INPUT);
   pinMode(48, INPUT);
@@ -36,9 +37,9 @@ void loop() {
       if (u < -50)
         u = -50;
       motorA.set(-u);
-    }
-    else
+    } else {
       motorA.stop();
+    }
 
     Serial.print(pos);
     Serial.print("  ");
@@ -46,4 +47,5 @@ void loop() {
     Serial.print("  ");
     Serial.println(u);
   }
+  motorA.stop();
 }

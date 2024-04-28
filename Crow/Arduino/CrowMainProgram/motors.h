@@ -1,4 +1,4 @@
-Motors motorA = Motors(9, 23, 22, 5, 48);    //pinPWM, pinA, pinB, interruptNumber, directionPin
+Motors motorA = Motors(10, 23, 22, 5, 48);    //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 int32_t value = 0;
 int pinPWM = 48;
@@ -10,9 +10,9 @@ void ann_motor(int pinPWM, int pinDIG) {
 
 void enc() {
   if (digitalRead(&pinPWM))
-    value++;
+    ++value;
   else
-    value--;
+    --value;
 }
 
 void ann_enc(int pinINTER) {
