@@ -53,45 +53,11 @@ void setup() {                                                     // как sta
     eyesLeds[i] = 0xFF8800;
     FastLED.show();
   }
-  /*
-  wingL.write(180);
-  delay(1300);
-  wingR.write(0);
-  delay(1300);
-
-  wingL.write(0);
-  delay(1300);
-  wingR.write(180);
-  delay(1300);
-
-  wingL.write(90);
-  delay(1300);
-  wingR.write(90);
-  delay(1300);
-
-  wingL.write(180);
-  delay(1300);
-  wingR.write(0);
-  delay(1300);
-
-  wingTurnL.write(100);
-  wingTurnR.write(100);
-
-  for (int i = 0; i < countLeds; ++i) {
-    eyesLeds[i] = 0xDA70233;
-    FastLED.show();
-  }
-
-  wingTurnL.write(0);
-  wingTurnR.write(0);
-  delay(1000);
-
-  wingTurnL.write(90);
-  wingTurnR.write(90);
-  delay(1000); */
 }
 
 void loop() {  // как update
+  moveEyeLeft();
+  moveEyeRight();
   switch (currentConditionCrows) {
     case 0:
       permanentLeds(24, 0xFF8800);  //глаза вороны светятся медовым
