@@ -1,7 +1,7 @@
 #include <Motors.h>
 #include "encoder.h"
 #include "interesting_functions.h"
-Motors motorA = Motors(4, 23, 22, 5, 48); //pinPWM, pinA, pinB, interruptNumber, directionPin
+Motors motorA = Motors(11, 49, 43, 5, 41); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 bool direct = true;
 float kp = 1.5, kd = 0, ki = 0.001, u = 0, i = 0;
@@ -30,7 +30,7 @@ void loop() {
       i += err * ki;
       if (abs(i) > 5)
         i = 5 * sign(i);
-      u = err * kp + i + (err - err_old) * kd;
+      u = err * kp + (err - err_old) * kd;//+i
       err_old = err;
       if (u > 50)
         u = 50;

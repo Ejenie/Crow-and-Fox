@@ -14,8 +14,6 @@ DFRobotDFPlayerMini playerCrow;
 
 uint32_t myTime = millis();
 uint32_t timerEyes = millis();
-const int pinLEDEyeRight = 24;
-const int pinLEDEyeLeft = 25;
 const int pinPWMRotaionCrows = 14;
 const int pinDIGRotaionCrows = 48;
 const int pinServoEyeLeft = 7;
@@ -29,7 +27,8 @@ int currentConditionCrows;
 int fileTransferSpeed = 9600;
 
 void setup() {                                                     // как start
-  FastLED.addLeds<NEOPIXEL, pinLEDEyeLeft>(eyesLeds, countLeds);  // GRB ordering is assumed
+  FastLED.addLeds<NEOPIXEL, pinLedEyeLeft>(ledLeft, countLeds);
+  FastLED.addLeds<NEOPIXEL, pinLedEyeRight>(ledRight, countLeds);
   Serial.begin(fileTransferSpeed);
   Serial2.begin(fileTransferSpeed);  //камера
   Serial3.begin(fileTransferSpeed);  //плеер
@@ -48,19 +47,15 @@ void setup() {                                                     // как sta
 
   ann_motor(pinPWMRotaionCrows, pinDIGRotaionCrows);
   ann_enc(pinDIGRotaionCrows);
-
-  for (int i = 0; i < countLeds; ++i) {
-    eyesLeds[i] = 0xFF8800;
-    FastLED.show();
-  }
 }
 
 void loop() {  // как update
   moveEyeLeft();
   moveEyeRight();
+  permanentLeds(24, 0xFFFFFF);
+  permanentLeds(25, 0xFFFFFF);
   switch (currentConditionCrows) {
     case 0:
-      permanentLeds(24, 0xFF8800);  //глаза вороны светятся медовым
       break;
     case 1:  //Ворона поворачивается в сторону Лисицы (движения Вороны изображающие радость),всё ещё держит сыр
       break;
