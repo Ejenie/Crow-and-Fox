@@ -1,7 +1,7 @@
 #include <Motors.h>
 #include "encoder.h"
 #include "interesting_functions.h"
-Motors motorA = Motors(11, 49, 43, 5, 41); //pinPWM, pinA, pinB, interruptNumber, directionPin
+Motors motorA = Motors(11, 49, 43, 3, 41); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 bool direct = true;
 float kp = 1.5, kd = 0, ki = 0.001, u = 0, i = 0;
@@ -12,9 +12,9 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Hello");
   Serial3.begin(9600);
-  pinMode(14, INPUT);
-  pinMode(48, INPUT);
-  attachInterrupt(5, enc, RISING);
+  pinMode(41, INPUT);
+  pinMode(3, INPUT);
+  attachInterrupt(digitalPinToInterrupt(3), enc, RISING);
   myTimer = millis();
 }
 
@@ -40,12 +40,12 @@ void loop() {
     } else {
       motorA.stop();
     }
-
+    Serial.print("Камера: ");
     Serial.print(pos);
-    Serial.print("  ");
+    Serial.print("   Энкодер: ");
     Serial.print(value / 5);
-    Serial.print("  ");
+    Serial.print("  Упр. возд.: ");
     Serial.println(u);
-  }
+  }  
   motorA.stop();
 }
