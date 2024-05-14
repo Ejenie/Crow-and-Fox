@@ -4,7 +4,7 @@
 Motors motorA = Motors(11, 49, 43, 3, 41); //pinPWM, pinA, pinB, interruptNumber, directionPin
 
 bool direct = true;
-float kp = 1.5, kd = 0, ki = 0.001, u = 0, i = 0;
+float kp = 1.5, kd = 5, ki = 0.001, u = 0, i = 0;
 int pos = 0, err_old = 0, vel = 40, err = 0;
 uint32_t myTimer = millis();
 
