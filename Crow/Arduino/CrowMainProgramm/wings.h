@@ -1,10 +1,7 @@
-#define CLOSE_LEFT_WING 0
-#define CLOSE_RIGHT_WING 0
+Servo wingTurnL;
+Servo wingTurnR;
 
-Servo wingL;
-Servo wingR;
-
-void wingLeft(int desiredPosition) {
+void wingTurnRight(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -12,10 +9,10 @@ void wingLeft(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  wingL.write(CLOSE_LEFT_WING - currentPosition);
+  wingTurnR.write(currentPosition);
 }
 
-void wingRight(int desiredPosition) {
+void wingTurnLeft(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -23,5 +20,5 @@ void wingRight(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  wingR.write(CLOSE_RIGHT_WING - currentPosition);
+  wingTurnL.write(currentPosition);
 }

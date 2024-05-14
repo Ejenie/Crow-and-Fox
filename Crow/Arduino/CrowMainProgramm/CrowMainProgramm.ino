@@ -3,28 +3,35 @@
 #include <Motors.h>
 #include "handleGesture.h"
 #include "eyes.h"
-#include "wings.h"
 #include "wire.h"
 #include "other_servo.h"
 #include "motors.h"
 #include "leds.h"
-#include "turnWings.h"
+#include "wings.h"
+#include "turnForFox.h"
+#include "shotCheese.h"
+
+#define pinPWMRotaionCrows 14
+#define pinDIGRotaionCrows 41
+#define pinInterruptCrows 3
+
+#define pinServoEyeLeft 7
+#define pinServoEyeRight 6
+#define pinServoWingPlaneLeft 5
+#define pinServoWingPlaneRight 13
+#define pinServoWingTurnLeft 8
+#define pinServoWingTurnRight 9
+#define pinServoStrela 10
 
 DFRobotDFPlayerMini playerCrow;
 
 uint32_t myTime = millis();
 uint32_t timerEyes = millis();
-const int pinPWMRotaionCrows = 14;
-const int pinDIGRotaionCrows = 48;
-const int pinServoEyeLeft = 7;
-const int pinServoEyeRight = 6;
-const int pinServoWingLeft = 5;
-const int pinServoWingRight = 13;
-const int pinServoWingTurnLeft = 8;
-const int pinServoWingTurnRight = 9;
 
 int currentConditionCrows;
 int fileTransferSpeed = 9600;
+
+Servo myservo;
 
 void setup() {                                                     // как start
   FastLED.addLeds<NEOPIXEL, pinLedEyeLeft>(ledLeft, countLeds);
@@ -36,30 +43,64 @@ void setup() {                                                     // как sta
   lidLeft.attach(pinServoEyeLeft);
   lidRight.attach(pinServoEyeRight);
 
-  wingL.attach(pinServoWingLeft);
-  wingR.attach(pinServoWingRight);
-
   wingTurnL.attach(pinServoWingTurnLeft);
   wingTurnR.attach(pinServoWingTurnRight);
+
+  wingPlaneL.attach(pinServoWingPlaneLeft);
+  wingPlaneR.attach(pinServoWingPlaneRight);
+  
+  strela.attach(pinServoStrela);
 
   //ann_handleGesture();
   ann_wire();
 
   ann_motor(pinPWMRotaionCrows, pinDIGRotaionCrows);
-  ann_enc(pinDIGRotaionCrows);
+  ann_enc(pinInterruptCrows);
 }
 
 void loop() {  // как update
   moveEyeLeft();
   moveEyeRight();
-  permanentLeds(24, 0xFFFFFF);
-  permanentLeds(25, 0xFFFFFF);
   switch (currentConditionCrows) {
     case 0:
       break;
     case 1:  //Ворона поворачивается в сторону Лисицы (движения Вороны изображающие радость),всё ещё держит сыр
-      break;
-    case 2:  //Ворона открывает клюв, сыр выбрасывается к Лисице
+      if (Serial3.available() != 0) {
+        pos = Serial3.read() - 80;
+        if ((pos < 0 && pos > -5) || (pos < 5 && pos > 0)) {
+          pos = 0;
+        }
+
+        if (pos != 0)  {
+          err = pos - (value / 4);
+          u = err * kp + (err - err_old) * kd;
+          err_old = err;
+
+          (u > 30) ? u = 30 : u = u;
+          (u < -30) ? u = -30 : u = u;
+
+          motorA.set(u);
+
+          ambientTemp = sensor.getAmbientTempCelsius();
+          objectTemp = sensor.getObjectTempCelsius();
+          if ((ambientTemp > 600 && objectTemp > -90) || (ambientTemp > 24 && objectTemp > 28)) {
+            kar = true;
+          }
+
+          if (kar && (value / 4 > -5 && value / 4 < 5)) {
+            motorA.stop();
+            shotCheese(1000);
+            currentConditionCrows++;
+          }
+          else if (value / 4 > -5 && value / 4 < 5) {
+            wingTurnRight(0);
+            wingTurnLeft(0);
+          }
+        }
+        else {
+          motorA.stop();
+        }
+      }
       break;
     case 3:  //Ворона сидит без сыра, грутсно опустив голову. При поглажеваниях ее головы, шевелит крыльями и веками глаз
       break;

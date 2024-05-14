@@ -1,6 +1,3 @@
-int currentPosition = 0;
-const int closeEye = 0;
-
 uint32_t timeEyeLeft = millis();
 uint32_t timeEyeRight = millis();
 
