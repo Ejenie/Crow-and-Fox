@@ -4,7 +4,7 @@
 #include "handleGesture.h"
 #include "eyes.h"
 #include "wire.h"
-#include "other_servo.h"
+#include "hand.h"
 #include "motors.h"
 #include "leds.h"
 #include "wings.h"
@@ -22,6 +22,8 @@
 #define pinServoWingTurnLeft 8
 #define pinServoWingTurnRight 9
 #define pinServoStrela 10
+#define pinServoHand 9
+#define pinServoOpening 10
 
 DFRobotDFPlayerMini playerCrow;
 
@@ -51,6 +53,9 @@ void setup() {                                                     // как sta
   
   strela.attach(pinServoStrela);
 
+  hand.attach(pinServoHand);
+  opening.attach(pinServoOpening);
+
   //ann_handleGesture();
   ann_wire();
 
@@ -59,7 +64,7 @@ void setup() {                                                     // как sta
 }
 
 void loop() {  // как update
-  moveEyeLeft();
+  /*moveEyeLeft();
   moveEyeRight();
   switch (currentConditionCrows) {
     case 0:
@@ -105,5 +110,5 @@ void loop() {  // как update
     case 3:  //Ворона сидит без сыра, грутсно опустив голову. При поглажеваниях ее головы, шевелит крыльями и веками глаз
       break;
     default: break;
-  }
+  }*/
 }
