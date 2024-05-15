@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 #define MLX90614_I2C_ADDR 0x00
-DFRobot_MLX90614_I2C sensor(MLX90614_I2C_ADDR, &Wire); 
+DFRobot_MLX90614_I2C sensor(MLX90614_I2C_ADDR, &Wire);
 
 Motors motorA = Motors(11, 49, 43, 3, 41); //pinPWM, pinA, pinB, interruptNumber, directionPin
 Servo strela;
@@ -17,6 +17,8 @@ int32_t value = 0;
 void setup() {
   Serial.begin(9600);
   Serial3.begin(9600);
+  Serial.println("Hello");
+  Serial2.begin(9600);
   pinMode(41, INPUT);
   pinMode(3, INPUT);
   strela.attach(48);
@@ -31,6 +33,8 @@ void setup() {
   sensor.setEmissivityCorrectionCoefficient(1.0);
   sensor.setI2CAddress(0x00);
   sensor.setMeasuredParameters(sensor.eIIR100, sensor.eFIR1024);
+
+  
   sensor.enterSleepMode();
   delay(50);
   sensor.enterSleepMode(false);
@@ -55,6 +59,7 @@ void loop() {
         u = -30;
       motorA.set(u);
       if (kar && value / 4 > -5 && value / 4 < 5) {
+        Serial.println("temp");
         delay(1000);
         strela.write(500);
         delay(1000);
@@ -64,7 +69,7 @@ void loop() {
       }
       Serial.print(pos);
       Serial.print("  ");
-      Serial.print(value / 5);
+      Serial.print(value / 4);
       Serial.print("  ");
       Serial.print(err);
       Serial.print("  ");

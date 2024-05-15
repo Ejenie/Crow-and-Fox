@@ -1,7 +1,6 @@
 Servo opening;
 Servo hand;
 
-
 void handTurn(int desiredPosition) {
   static int currentPosition = 0;
 

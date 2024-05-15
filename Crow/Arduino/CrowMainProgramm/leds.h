@@ -1,8 +1,9 @@
 #include <FastLED.h>
 #include <DFRobotDFPlayerMini.h>
-const int pinLedEyeRight = 24;
-const int pinLedEyeLeft = 25;
-const int countLeds = 8;
+
+#define countLeds 8
+#define pinLedEyeRight 24
+#define pinLedEyeLeft 25
 
 CRGB ledLeft[countLeds];
 CRGB ledRight[countLeds];
@@ -19,10 +20,13 @@ void permanentLeds(int pinLedEye, uint32_t color) {
 }
 
 void changeLeds(int pinLedEye, uint32_t color, int countOnLeds, int timePause) {
+  uint32_t timerLed = millis();
   for (int i = 0; i < countLeds; ++i) {
-    (pinLedEye == pinLedEyeLeft) ? (ledLeft[i] = color) : (ledRight[i] = color);
-    (pinLedEye == pinLedEyeLeft) ? (ledLeft[valOnModule(i - countOnLeds, countLeds)] = 0) : (ledRight[valOnModule(i - countOnLeds, countLeds)] = 0);
-    FastLED.show();
-    delay(timePause);
+    if ((millis() - timerLed) > timePause) {
+    timerLed = millis();
+      (pinLedEye == pinLedEyeLeft) ? (ledLeft[i] = color) : (ledRight[i] = color);
+      (pinLedEye == pinLedEyeLeft) ? (ledLeft[valOnModule(i - countOnLeds, countLeds)] = 0) : (ledRight[valOnModule(i - countOnLeds, countLeds)] = 0);
+      FastLED.show();
+    }
   }
 }

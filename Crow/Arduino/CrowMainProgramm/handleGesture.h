@@ -1,22 +1,15 @@
-/*#include <SparkFun_APDS9960.h>
-#define INTR_PIN 2    // порт прерывания датчика  жестов
-
-SparkFun_APDS9960 apds = SparkFun_APDS9960();   // создаем объект датчика жестов
-
-
-bool isr_flag = false;
+#include <Wire.h>
+#include <SparkFun_APDS9960.h>
+SparkFun_APDS9960 apds = SparkFun_APDS9960();
+int isr_flag = 0;
 
 void interruptRoutine() {
-  isr_flag = true;
-}
-
-void ann_handleGesture() {
-  attachInterrupt(1, interruptRoutine, FALLING);    //прерывание датчика жестов на спад
+  isr_flag = 1;
 }
 
 void handleGesture() {
-  if (apds.isGestureAvailable() ) {
-    switch (apds.readGesture() ) {
+  if ( apds.isGestureAvailable() ) {
+    switch ( apds.readGesture() ) {
       case DIR_UP:
         Serial.println("UP");
         break;
@@ -39,4 +32,4 @@ void handleGesture() {
         Serial.println("NONE");
     }
   }
-}*/
+}

@@ -1,7 +1,8 @@
 Motors motorA = Motors(11, 49, 43, 3, 41);    //pinPWM, pinA, pinB, interruptNumber, directionPin
+Motors motorB = Motors(11, 49, 43, 3, 41);    //pinPWM, pinA, pinB, interruptNumber, directionPin
 
-int32_t value = 0;
-int pinPWM = 41;
+int32_t value = 0, valueTail = 0;
+int pinPWM = 41, pinPWMTail = 34;
 
 void ann_motor(int pinPWM, int pinDIG) {
   pinMode(pinPWM, INPUT);
@@ -15,6 +16,9 @@ void enc() {
     --value;
 }
 
-void ann_enc(int pinINTER) {
-  attachInterrupt(digitalPinToInterrupt(pinINTER), enc, RISING);
+void encTail() {
+  if (digitalRead(&pinPWMTail))
+    ++valueTail;
+  else
+    --valueTail;
 }
