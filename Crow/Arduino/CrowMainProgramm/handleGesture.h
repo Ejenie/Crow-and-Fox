@@ -1,4 +1,4 @@
-#include <Wire.h>
+/*#include <Wire.h>
 #include <SparkFun_APDS9960.h>
 SparkFun_APDS9960 apds = SparkFun_APDS9960();
 int isr_flag = 0;
@@ -32,4 +32,4 @@ void handleGesture() {
         Serial.println("NONE");
     }
   }
-}
+}*/

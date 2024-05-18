@@ -2,8 +2,8 @@
 #include <DFRobotDFPlayerMini.h>
 
 #define countLeds 8
-#define pinLedEyeRight 24
-#define pinLedEyeLeft 25
+#define pinLedEyeRight 25
+#define pinLedEyeLeft 27
 
 CRGB ledLeft[countLeds];
 CRGB ledRight[countLeds];

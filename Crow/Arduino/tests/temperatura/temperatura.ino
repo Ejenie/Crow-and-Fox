@@ -23,12 +23,6 @@ void setup()
   }
   Serial.println("Begin ok!");
 
-  /**
-   * adjust sensor sleep mode
-   * mode select to enter or exit sleep mode, it's enter sleep mode by default
-   *      true is to enter sleep mode
-   *      false is to exit sleep mode (automatically exit sleep mode after power down and restart)
-   */
   sensor.enterSleepMode();
   delay(50);
   sensor.enterSleepMode(false);

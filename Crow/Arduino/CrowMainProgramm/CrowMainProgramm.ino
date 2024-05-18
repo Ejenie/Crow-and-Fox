@@ -20,9 +20,9 @@
 #define pinServoEyeRight 6
 #define pinServoWingPlaneLeft 5
 #define pinServoWingPlaneRight 13
-#define pinServoWingTurnLeft 8
-#define pinServoWingTurnRight 9
-#define pinServoStrela 10
+#define pinServoWingTurnLeft 12
+#define pinServoWingTurnRight 14
+#define pinServoStrela 48
 #define pinServoHand 9
 #define pinServoOpening 10
 
@@ -61,9 +61,6 @@ void setup() {                                                     // как sta
   hand.attach(pinServoHand);
   opening.attach(pinServoOpening);
 
-  pinMode(APDS9960_INT, INPUT);
-  attachInterrupt(0, interruptRoutine, FALLING);
-
   ann_wire();
 
   ann_motor(pinPWMRotaionCrows, pinDIGRotaionCrows);
@@ -73,15 +70,13 @@ void setup() {                                                     // как sta
 
 void loop() {  // как update
   Serial.print("start loop");
-  currentConditionCrows = 1;
+  currentConditionCrows = 0;
   switch (currentConditionCrows) {
     case 0:
-      Serial.println("case 0");   //Ворона сидит и собирается есть сыр
-      permanentLeds(pinLedEyeLeft, 0x000000);
+      permanentLeds(pinLedEyeLeft, 0x000000);q
       permanentLeds(pinLedEyeRight, 0x000000);
 
       if (Serial3.available() != 0) {
-        Serial.println("camera time");    //Ворона увидела Лису
         permanentLeds(pinLedEyeLeft, 0x000000);
         permanentLeds(pinLedEyeRight, 0x000000);
 
@@ -89,43 +84,43 @@ void loop() {  // как update
         if ((pos < 0 && pos > -5) || (pos < 5 && pos > 0)) {
           pos = 0;
         }
-
+    
         if (pos != 0)  {
           err = pos - (value / 4);
           u = err * kp + (err - err_old) * kd;
           err_old = err;
 
-          (u > 30) ? u = 30 : u = u;
-          (u < -30) ? u = -30 : u = u;
+          (u > 40) ? u = 40 : u = u;
+          (u < -40) ? u = -40 : u = u;
 
           motorA.set(u);
 
-          ambientTemp = sensor.getAmbientTempCelsius();
-          objectTemp = sensor.getObjectTempCelsius();
-          if ((ambientTemp > 600 && objectTemp > -90) || (ambientTemp > 24 && objectTemp > 28)) {
-            Serial.println("Temperature detected");
-            permanentLeds(pinLedEyeLeft, 0x000000);
-            permanentLeds(pinLedEyeRight, 0x000000);
-            kar = true;
-          }
+//          ambientTemp = sensor.getAmbientTempCelsius();
+//          objectTemp = sensor.getObjectTempCelsius();
+//          if ((ambientTemp > 600 && objectTemp > -90) || (ambientTemp > 24 && objectTemp > 28)) {
+//            Serial.println("Temperature detected");
+//            permanentLeds(pinLedEyeLeft, 0x000000);
+//            permanentLeds(pinLedEyeRight, 0x000000);
+//            kar = true;
+//          }
 
-          if (kar && (value / 4 > -5 && value / 4 < 5)) {
-            Serial.println("shot");   //Ворона под далась лести Лисы и выплюнула сыр
-            motorA.stop();
-            shotCheese(1000);
-            playerCrow.play(1);
-            delay(5000);
-            changeLeds(pinLedEyeLeft, 0x000000, 6, 200);
-            changeLeds(pinLedEyeRight, 0x000000, 6, 200);
-            currentConditionCrows++;
-          }
-          else if (value / 4 > -5 && value / 4 < 5 && ((millis() - timerTemp) > 1000)) {
-            timerTemp = millis();
-            countTemp++;
-            Serial.println("centre");
-            wingTurnRight(0);
-            wingTurnLeft(0);
-          }
+//          if (kar && (value / 4 > -5 && value / 4 < 5)) {
+//            Serial.println("shot");   //Ворона под далась лести Лисы и выплюнула сыр
+//            motorA.stop();
+//            shotCheese(1000);
+//            playerCrow.play(1);
+//            delay(5000);
+//            changeLeds(pinLedEyeLeft, 0x000000, 6, 200);
+//            changeLeds(pinLedEyeRight, 0x000000, 6, 200);
+//            currentConditionCrows++;
+//          }
+//          else if (value / 4 > -5 && value / 4 < 5 && ((millis() - timerTemp) > 1000)) {
+//            timerTemp = millis();
+//            countTemp++;
+//            Serial.println("centre");
+//            wingTurnRight(0);
+//            wingTurnLeft(0);
+//          }
         }
         else {
           motorA.stop();
