@@ -14,13 +14,10 @@ DFRobot_MLX90614_I2C sensor;   // instantiate an object to drive our sensor
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   // initialize the sensor
-  while( NO_ERR != sensor.begin() ){
-    Serial.println("Communication with device failed, please check connection");
-    delay(3000);
-  }
+
   Serial.println("Begin ok!");
 
   sensor.enterSleepMode();

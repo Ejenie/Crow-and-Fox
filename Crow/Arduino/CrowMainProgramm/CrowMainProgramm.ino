@@ -16,8 +16,8 @@
 #define pinInterruptCrows 3
 #define pinInterruptTail 3
 
-#define pinServoEyeLeft 7
-#define pinServoEyeRight 6
+#define pinServoEyeLeft 33
+#define pinServoEyeRight 13
 #define pinServoWingPlaneLeft 5
 #define pinServoWingPlaneRight 13
 #define pinServoWingTurnLeft 12
@@ -33,8 +33,9 @@ DFRobotDFPlayerMini playerCrow;
 uint32_t myTime = millis();
 uint32_t timerEyes = millis();
 uint32_t timerTemp = millis();
+uint32_t timerCamera = millis();
 
-int currentConditionCrows = 1, countTemp = 0;
+int currentConditionCrows = 0, countTemp = 0;
 int fileTransferSpeed = 9600;
 
 void setup() {                                                     // как start
@@ -69,63 +70,59 @@ void setup() {                                                     // как sta
 }
 
 void loop() {  // как update
-  Serial.print("start loop");
   currentConditionCrows = 0;
   switch (currentConditionCrows) {
     case 0:
-      permanentLeds(pinLedEyeLeft, 0x000000);q
-      permanentLeds(pinLedEyeRight, 0x000000);
+      while (currentConditionCrows == 0) {
+        if (Serial3.available() != 0) {
+          timerCamera = millis();
+          permanentLeds(pinLedEyeLeft, 0x00FF00);
+          permanentLeds(pinLedEyeRight, 0x00FF00);
+          pos = Serial3.read() - 80;
+          if ((pos < 0 && pos > -5) || (pos < 5 && pos > 0)) {
+            pos = 0;
+          }
+          Serial.println(currentConditionCrows);
+          if (pos != 0)  {
+            err = pos - (value / 4);
+            u = err * kp + (err - err_old) * kd;
+            err_old = err;
 
-      if (Serial3.available() != 0) {
-        permanentLeds(pinLedEyeLeft, 0x000000);
-        permanentLeds(pinLedEyeRight, 0x000000);
+            (u > 40) ? u = 40 : u = u;
+            (u < -40) ? u = -40 : u = u;
+            motorA.set(u);
+            float ambientTemp = sensor.getAmbientTempCelsius();
+            float objectTemp = sensor.getObjectTempCelsius();
+            if ((ambientTemp > 600 && objectTemp > -90) || (ambientTemp > 24 && objectTemp > 28)) {
+              Serial.println("Temperature detected");
+              permanentLeds(pinLedEyeLeft, 0x000000);
+              permanentLeds(pinLedEyeRight, 0x000000);
+              kar = true;
+            }
+            if (kar && (value / 4 > -5 && value / 4 < 5)) {
+              motorA.stop();
+              shotCheese(1000);
+              playerCrow.play(1);
+              delay(5000);
+              changeLeds(pinLedEyeLeft, 0x000000, 6, 200);
+              changeLeds(pinLedEyeRight, 0x000000, 6, 200);
+              currentConditionCrows++;
+            }
+            if (value / 4 > -5 && value / 4 < 5 && ((millis() - timerTemp) > 1000)) {
+              timerTemp = millis();
+              countTemp++;
+              wingTurnRight(70);
+              wingTurnLeft(70);
+            }
 
-        pos = Serial3.read() - 80;
-        if ((pos < 0 && pos > -5) || (pos < 5 && pos > 0)) {
-          pos = 0;
-        }
-    
-        if (pos != 0)  {
-          err = pos - (value / 4);
-          u = err * kp + (err - err_old) * kd;
-          err_old = err;
-
-          (u > 40) ? u = 40 : u = u;
-          (u < -40) ? u = -40 : u = u;
-
-          motorA.set(u);
-
-//          ambientTemp = sensor.getAmbientTempCelsius();
-//          objectTemp = sensor.getObjectTempCelsius();
-//          if ((ambientTemp > 600 && objectTemp > -90) || (ambientTemp > 24 && objectTemp > 28)) {
-//            Serial.println("Temperature detected");
-//            permanentLeds(pinLedEyeLeft, 0x000000);
-//            permanentLeds(pinLedEyeRight, 0x000000);
-//            kar = true;
-//          }
-
-//          if (kar && (value / 4 > -5 && value / 4 < 5)) {
-//            Serial.println("shot");   //Ворона под далась лести Лисы и выплюнула сыр
-//            motorA.stop();
-//            shotCheese(1000);
-//            playerCrow.play(1);
-//            delay(5000);
-//            changeLeds(pinLedEyeLeft, 0x000000, 6, 200);
-//            changeLeds(pinLedEyeRight, 0x000000, 6, 200);
-//            currentConditionCrows++;
-//          }
-//          else if (value / 4 > -5 && value / 4 < 5 && ((millis() - timerTemp) > 1000)) {
-//            timerTemp = millis();
-//            countTemp++;
-//            Serial.println("centre");
-//            wingTurnRight(0);
-//            wingTurnLeft(0);
-//          }
-        }
-        else {
-          motorA.stop();
+          }
+          else {
+            Serial.println(currentConditionCrows);
+            motorA.stop();
+          }
         }
       }
+      Serial.println("Gg");
       break;
     case 1:  //Ворона сидит без сыра, грутсно опустив голову. При поглажеваниях ее головы, шевелит крыльями и веками глаз
       Serial.println("case 1");
