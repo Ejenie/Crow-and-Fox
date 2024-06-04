@@ -139,8 +139,6 @@ void setup() {
   delay(130);
   while (TailCurrentLimit <= 100) {
     TailCurrentLimit = analogRead(A2);
-    Serial.println("tail");
-    Serial.println(TailCurrentLimit);
   }
   encTail = 0;
   motor(0);
@@ -154,7 +152,7 @@ void loop() {
     if ((pos < 0 && pos > -5) || (pos > 0 && pos < 5)) {
       pos = 0;
     }
-    if (pos != 0 && pos >= -65) {
+    if (pos != 0 && pos >= - 65) {
       err = pos - (value / 4);
       i += err * ki;
       u = err * kp + (err - err_old) * kd;
@@ -165,10 +163,10 @@ void loop() {
         u = -40;
 
       motorA.set(u);
+      Serial.println(pos);
       if (kar && value / 4 > -5 && value / 4 < 5) {
         motorA.stop();
         playerCrow.play(1);
-        Serial.println("Kar");
         delay(1000);
         strela.write(500);
         delay(1000);
@@ -199,7 +197,6 @@ void loop() {
       else if (value / 4 > -5 && value / 4 < 5) {
         countFox += 1;
       }
-      Serial.println(countFox);
 
       float ambientTemp = sensor.getAmbientTempCelsius();
       float objectTemp = sensor.getObjectTempCelsius();
