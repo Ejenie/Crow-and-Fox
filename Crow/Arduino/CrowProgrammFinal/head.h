@@ -1,7 +1,7 @@
 Servo opening;
-Servo hand;
+Servo head;
 
-void handTurn(int desiredPosition) {
+void headTurn(int desiredPosition) {
   static int currentPosition = 0;
 
   if (currentPosition > desiredPosition)
@@ -9,8 +9,9 @@ void handTurn(int desiredPosition) {
   else if (currentPosition < desiredPosition)
     currentPosition += 1;
 
-  hand.write(currentPosition);
+  head.write(currentPosition);
 }
+
 void openingTurn(int desiredPosition) {
   static int currentPosition = 0;
 

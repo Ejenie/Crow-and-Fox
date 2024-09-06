@@ -25,24 +25,3 @@ void moveLidRight(int desiredPosition) {
 
   lidRight.write(currentPosition);
 }
-
-
-void moveEyeLeft() {
-  if (millis() - timeEyeLeft > 15) {
-    timeEyeLeft = millis();
-    if (millis() % 6000 > 2700)
-      moveLidLeft(100);
-    else if (millis() % 6000 > 150)
-      moveLidLeft(150);
-  }
-}
-
-void moveEyeRight() {
-  if (millis() - timeEyeRight > 15) {
-    timeEyeRight = millis();
-    if (millis() % 6000 > 2700)
-      moveLidRight(50);
-    else if (millis() % 6000 > 150)
-      moveLidRight(140);
-  }
-}

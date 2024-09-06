@@ -4,7 +4,7 @@ Servo wingTurnR;
 Servo wingPlaneL;
 Servo wingPlaneR;
 
-void wingTurnRight(int desiredPosition) { 
+void wingTurnRight(int desiredPosition) {
   static int currentPosition = 180;
 
   while (currentPosition > desiredPosition)
