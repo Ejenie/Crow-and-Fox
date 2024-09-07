@@ -1,20 +1,20 @@
-//current on 06.09.24❤❤
+//current on 07.09.24❤❤
 #include <DFRobot_MLX90614.h>
 #include <DFRobotDFPlayerMini.h>
 #include <Servo.h>
 #include <Motors.h>
 
 /*#include "eyes.h"
-#include "wire.h"
-#include "head.h"
-#include "motors.h"
-#include "leds.h"
-#include "wings.h"
-#include "turnForFox.h"
-#include "shotCheese.h"
-#include "APDS9960.h"
-#include "tail.h"
-#include "declaring.h"*/
+  #include "wire.h"
+  #include "head.h"
+  #include "motors.h"
+  #include "leds.h"
+  #include "wings.h"
+  #include "turnForFox.h"
+  #include "shotCheese.h"
+  #include "APDS9960.h"
+  #include "tail.h"
+  #include "declaring.h"*/
 #include "handleGesture.h"
 
 void setup() {
@@ -83,15 +83,19 @@ void setup() {
 
   head.attach(pinServohead);
   opening.attach(pinServoOpening);
-
-  wingTurnLeft(10);    //начальные положения серво-моторов
-  wingTurnRight(170);
+  
+                      //начальные положения серво-моторов
+  wingTurnLeft(10);    //от 10 до 160
+  wingTurnRight(170);   //от 170 до 70
 
   wingPlaneLeft(10);
   wingPlaneRight(170);
 
   moveLidLeft(170);
   moveLidRight(10);
+
+  lidRight.write(10);
+  lidLeft.write(170);
 
   head.write(0);
 
@@ -101,9 +105,9 @@ void setup() {
     TailCurrentLimit = analogRead(A2);
     Serial.print("tail  ");
     Serial.println(TailCurrentLimit);
-  }  
+  }
   encTail = 0;
-  motor(0);  
+  motor(0);
 
   permanentLeds(pinLedEyeLeft, 0xDDAA00);
   permanentLeds(pinLedEyeRight, 0xDDAA00);
@@ -124,14 +128,14 @@ void loop() {
     pos = Serial3.read() - 80;
     pos = int((pos + pos_old) / 2);
     pos_old = pos;
-    
+
     if ((pos < 0 && pos > -5) || (pos > 0 && pos < 5)) {    //позиция Лисы - центр
       pos = 0;
       if (millis() - timerFox > 3000) {
         timerFox = millis();
         countFox++;
         Serial.print("Кол-во появлений лисы:  ");
-        Serial.println(countFox);//*/
+        Serial.println(countFox);//
         switch (countFox) {   //действия Вороны на слова Лисы
           case 3:
             motorA.stop();
@@ -154,9 +158,9 @@ void loop() {
             motorA.stop();
             for (int i = 0; i < 3; i++) {
               wingTurnLeft(20);
-              wingTurnRight(110);
+              wingTurnRight(160);
               delay(600);
-              wingTurnRight(20);
+              wingTurnRight(110);
               wingTurnLeft(110);
               delay(600);
             }
@@ -167,30 +171,29 @@ void loop() {
         permanentLeds(pinLedEyeRight, 0xDDAA00);
       }
     }
-    
+
     wingTurnLeft(10);
     wingTurnRight(170);
-    
+
     if (pos != 0  && pos != -80) {    //регулятор отслеживания Лисы
       err = pos - (value / 4);
       u = err * kp + (err - err_old) * kd;
       err_old = err;
-      if (u > 40)
-        u = 40;
-      if (u < -40)
-        u = -40;
+      if (u > 30)
+        u = 30;
+      if (u < -30)
+        u = -30;
 
       Serial.print("pos = ");
       Serial.print(pos);
       Serial.print("  ");
       Serial.print("enc = ");
-      Serial.print(value / 4);
-      Serial.print("  ");//*/
+      Serial.println(value / 4);//*/
       /*Serial.print("u = ");
         Serial.print(u);*/
-        
+
       motorA.set(u * kS);
-      
+
       if (kar && (value / 4) > -5 && (value / 4) < 5) {   //готовность к выстреливанию сыром
         Serial.println("kar");
         motorA.stop();
@@ -204,16 +207,16 @@ void loop() {
 
         for (int i = 0; i < 3; i++) {
           lidRight.write(140);
-          lidLeft.write(30);
-          delay(500);
+          lidLeft.write(20);
+          delay(1000);
           lidRight.write(10);
           lidLeft.write(170);
-          delay(500);
+          delay(1000);
         }
         wingPlaneRight(170);
         wingPlaneLeft(10);
 
-        wingTurnRight(90);
+        wingTurnRight(110);
         wingTurnLeft(90);
 
         head.write(0);
@@ -229,7 +232,7 @@ void loop() {
         permanentLeds(pinLedEyeLeft, 0x2222FF);
         permanentLeds(pinLedEyeRight, 0x2222FF);
 
-        lidRight.write(50);
+        lidRight.write(80);
         lidLeft.write(130);
 
         tailClosed();
@@ -239,7 +242,7 @@ void loop() {
         kar = false;
         kS = 0;
       }
-      
+
       float ambientTemp = sensor.getAmbientTempCelsius();
       float objectTemp = sensor.getObjectTempCelsius();
 

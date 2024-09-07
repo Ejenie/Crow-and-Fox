@@ -13,7 +13,7 @@ Motors motorA = Motors(11, 49, 43, 3, 41);  //pinPWM, pinA, pinB, interruptNumbe
 DFRobotDFPlayerMini playerCrow;
 
 bool flagBegin = true, kar = false, flagTemp = true;
-float kp = 0.7, kd = 1.5, u = 0, uLim = 0, kLim = 1, kS = 0.8;
+float kp = 1, kd = 1.6, u = 0, kS = 0.96;
 int pos = 0, pos_old = 0, err_old = 0, vel = 20, err = 0, countFox = 0;
 
 uint32_t timerWait = millis(), timerFox = millis();

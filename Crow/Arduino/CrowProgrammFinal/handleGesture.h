@@ -38,11 +38,11 @@ void handleGesture() {    //функция состояний датчика ж�
           delay(500);
         }
         for (int i = 0; i < 3; i++) {
-          wingTurnLeft(70);
-          wingTurnRight(50);
+          wingTurnLeft(20);
+          wingTurnRight(160);
           delay(700);
-          wingTurnRight(70);
-          wingTurnLeft(50);
+          wingTurnRight(110);
+          wingTurnLeft(110);
           delay(700);
         }
         wingTurnLeft(90);

@@ -46,18 +46,18 @@ void isrTail() {
 
 void tailOpen() {
   while (Myabs(encTail) < tail_lim)
-    motor(-30);
+    motor(-20);
   while (Myabs(encTail) > tail_lim)
-    motor(130);
+    motor(110);
   motor(0);
 }
 
 void tailClosed() {
   while (Myabs(encTail) > tail_Clos) {
-    motor(130);
+    motor(120);
   }
   while (Myabs(encTail) < tail_Clos) {
-    motor(-30);
+    motor(-20);
   }
   motor(0);
 }

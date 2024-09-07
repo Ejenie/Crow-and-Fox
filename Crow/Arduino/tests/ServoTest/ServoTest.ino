@@ -15,10 +15,51 @@
 #define pinServoHand 8
 #define pinServoOpening 7
 
-int pos = 0;    // variable to store the servo position
-
 void test() {
-  //pass
+  lidLeft.write(60);
+  delay(200);
+  lidLeft.write(120);
+  delay(200);
+
+  lidRight.write(60);
+  delay(200);
+  lidRight.write(120);
+  delay(200);
+
+  wingTurnL.write(60);
+  delay(200);
+  wingTurnL.write(120);
+  delay(200);
+
+  wingTurnR.write(60);
+  delay(200);
+  wingTurnR.write(120);
+  delay(200);
+
+  wingPlaneL.write(60);
+  delay(200);
+  wingPlaneL.write(120);
+  delay(200);
+
+  wingPlaneR.write(60);
+  delay(200);
+  wingPlaneR.write(120);
+  delay(200);
+
+  strela.write(60);
+  delay(200);
+  strela.write(120);
+  delay(200);
+
+  hand.write(60);
+  delay(200);
+  hand.write(120);
+  delay(200);
+
+  opening.write(60);
+  delay(200);
+  opening.write(120);
+  delay(200);
 }
 
 void setup() {
@@ -28,7 +69,6 @@ void setup() {
   wingTurnL.attach(pinServoWingTurnLeft);
   wingTurnR.attach(pinServoWingTurnRight);
 
-
   wingPlaneL.attach(pinServoWingPlaneLeft);
   wingPlaneR.attach(pinServoWingPlaneRight);
 
@@ -36,14 +76,9 @@ void setup() {
 
   hand.attach(pinServoHand);
   opening.attach(pinServoOpening);
-
 }
 
 void loop() {
-  for (int i = 0; i < 2; i++) {
-    wingTurnLeft(20);
-    delay(600);
-    wingTurnLeft(150);
-    delay(600);
-  }
+  wingPlaneLeft(10);
+  delay(600);
 }
