@@ -99,7 +99,7 @@ void setup() {
 
   head.write(0);
 
-  motor(130);
+ /* motor(130);
   delay(130);
   while (TailCurrentLimit <= 100) {
     TailCurrentLimit = analogRead(A2);
@@ -107,7 +107,7 @@ void setup() {
     Serial.println(TailCurrentLimit);
   }
   encTail = 0;
-  motor(0);
+  motor(0);*/
 
   permanentLeds(pinLedEyeLeft, 0xDDAA00);
   permanentLeds(pinLedEyeRight, 0xDDAA00);
@@ -235,7 +235,7 @@ void loop() {
         lidRight.write(80);
         lidLeft.write(130);
 
-        tailClosed();
+        //tailClosed();
         wingTurnLeft(10);
         wingTurnRight(170);
         delay(15000);
@@ -250,7 +250,7 @@ void loop() {
         motorA.stop();
         Serial.println("temp");
         flagTemp = false;
-        tailOpen();   //открытие хвоста
+        //tailOpen();   //открытие хвоста
         head.write(100);
 
         permanentLeds(pinLedEyeLeft, 0xFF9900);
