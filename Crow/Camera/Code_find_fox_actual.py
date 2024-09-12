@@ -1,7 +1,7 @@
 import sensor, time, math, pyb
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
-sensor.set_framesize(sensor.QQVGA)
+sensor.set_framesize(sensor.QQQVGA)
 sensor.skip_frames(time = 2000)
 sensor.set_auto_gain(False)
 sensor.set_auto_whitebal(False)
@@ -24,7 +24,7 @@ blue_led = pyb.LED(3)
 s1 = pyb.Servo(1)
 img = sensor.snapshot()
 w = img.width()
-h = img.height()
+h  = img.height()
 print(w, h)
 
 while True:

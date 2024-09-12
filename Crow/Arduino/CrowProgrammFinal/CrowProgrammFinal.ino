@@ -83,8 +83,8 @@ void setup() {
 
   head.attach(pinServohead);
   opening.attach(pinServoOpening);
-  
-                      //начальные положения серво-моторов
+
+  //начальные положения серво-моторов
   wingTurnLeft(10);    //от 10 до 160
   wingTurnRight(170);   //от 170 до 70
 
@@ -123,6 +123,7 @@ void loop() {
     }
     delay(3600);
   }
+  opening.write(20);
   if (Serial3.available() != 0 && (millis() - timerWait > 23000)) {   //запуск цикла отслеживания Лисы
     flagBegin  = false;
     pos = Serial3.read() - 80;
@@ -167,8 +168,6 @@ void loop() {
             break;
           default: break;
         }
-        permanentLeds(pinLedEyeLeft, 0xDDAA00);
-        permanentLeds(pinLedEyeRight, 0xDDAA00);
       }
     }
 
@@ -208,16 +207,11 @@ void loop() {
         for (int i = 0; i < 3; i++) {
           lidRight.write(140);
           lidLeft.write(20);
-          delay(1000);
+          delay(600);
           lidRight.write(10);
           lidLeft.write(170);
-          delay(1000);
+          delay(600);
         }
-        wingPlaneRight(170);
-        wingPlaneLeft(10);
-
-        wingTurnRight(110);
-        wingTurnLeft(90);
 
         head.write(0);
         for (int i = 0; i < 4; i++) {
@@ -229,16 +223,25 @@ void loop() {
         opening.write(0);
         delay(400);
 
+        wingTurnRight(90);
+        wingTurnLeft(150);
+        for (int i = 0; i < 3; i++) {
+          wingPlaneRight(90);
+          wingPlaneLeft(90);
+          delay(600);
+          wingPlaneRight(170);
+          wingPlaneLeft(10);
+          delay(600);
+        }
         permanentLeds(pinLedEyeLeft, 0x2222FF);
         permanentLeds(pinLedEyeRight, 0x2222FF);
 
-        lidRight.write(80);
-        lidLeft.write(130);
+        lidRight.write(50);
+        lidLeft.write(120);
 
         tailClosed();
         wingTurnLeft(10);
         wingTurnRight(170);
-        delay(15000);
         kar = false;
         kS = 0;
       }

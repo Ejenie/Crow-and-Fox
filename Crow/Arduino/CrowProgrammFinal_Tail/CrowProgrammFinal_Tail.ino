@@ -83,8 +83,8 @@ void setup() {
 
   head.attach(pinServohead);
   opening.attach(pinServoOpening);
-  
-                      //начальные положения серво-моторов
+
+  //начальные положения серво-моторов
   wingTurnLeft(10);    //от 10 до 160
   wingTurnRight(170);   //от 170 до 70
 
@@ -99,15 +99,15 @@ void setup() {
 
   head.write(0);
 
- /* motor(130);
-  delay(130);
-  while (TailCurrentLimit <= 100) {
-    TailCurrentLimit = analogRead(A2);
-    Serial.print("tail  ");
-    Serial.println(TailCurrentLimit);
-  }
-  encTail = 0;
-  motor(0);*/
+  /* motor(130);
+    delay(130);
+    while (TailCurrentLimit <= 100) {
+     TailCurrentLimit = analogRead(A2);
+     Serial.print("tail  ");
+     Serial.println(TailCurrentLimit);
+    }
+    encTail = 0;
+    motor(0);*/
 
   permanentLeds(pinLedEyeLeft, 0xDDAA00);
   permanentLeds(pinLedEyeRight, 0xDDAA00);
@@ -167,8 +167,6 @@ void loop() {
             break;
           default: break;
         }
-        permanentLeds(pinLedEyeLeft, 0xDDAA00);
-        permanentLeds(pinLedEyeRight, 0xDDAA00);
       }
     }
 
@@ -208,16 +206,23 @@ void loop() {
         for (int i = 0; i < 3; i++) {
           lidRight.write(140);
           lidLeft.write(20);
-          delay(1000);
+          delay(600);
           lidRight.write(10);
           lidLeft.write(170);
-          delay(1000);
+          delay(600);
         }
-        wingPlaneRight(170);
-        wingPlaneLeft(10);
+
 
         wingTurnRight(110);
         wingTurnLeft(90);
+        for (int i = 0; i < 2; i++) {
+          wingPlaneRight(90);
+          wingPlaneLeft(90);
+          delay(600);
+          wingPlaneRight(170);
+          wingPlaneLeft(10);
+          delay(600);
+        }
 
         head.write(0);
         for (int i = 0; i < 4; i++) {
@@ -233,7 +238,7 @@ void loop() {
         permanentLeds(pinLedEyeRight, 0x2222FF);
 
         lidRight.write(80);
-        lidLeft.write(130);
+        lidLeft.write(14 n0);
 
         //tailClosed();
         wingTurnLeft(10);

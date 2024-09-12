@@ -48,13 +48,13 @@ void tailOpen() {
   while (Myabs(encTail) < tail_lim)
     motor(-20);
   while (Myabs(encTail) > tail_lim)
-    motor(110);
+    motor(190);
   motor(0);
 }
 
 void tailClosed() {
   while (Myabs(encTail) > tail_Clos) {
-    motor(120);
+    motor(190);
   }
   while (Myabs(encTail) < tail_Clos) {
     motor(-20);

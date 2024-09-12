@@ -23,33 +23,9 @@ void setup()
     delay(3000);
   }
   Serial.println("Begin ok!");
-
-  /**
-   * set the emissivity calibration coefficient, users need to calculate the ratio of the temperature measured before the sensor changes emissivity to the true temperature of the object,
-   * upload the ratio to the api as a parameter, and the deviation of the object absolute temperature measured by the sensor will be lower
-   * calibrationValue new calibration coefficient, [0, 1]
-   */
   sensor.setEmissivityCorrectionCoefficient(1.0);
-
-  /**
-   * set I2C communication address, the setting takes effect after power down and restart
-   * addr new I2C communication address 7bit(0~127)
-   */
   sensor.setI2CAddress(0x00);
-
-  /**
-   * set the measurement parameters, including IIR (Infinite Impulse Response Digital Filter) and FIR (Finite Impulse Response Digital Filter)
-   * IIRMode: eIIR100, eIIR80, eIIR67, eIIR57;
-   * FIRMode: eFIR128, eFIR256, eFIR512, eFIR1024;
-   */
    sensor.setMeasuredParameters(sensor.eIIR100, sensor.eFIR1024);
-
-  /**
-   * control the sensor sleep mode, must enter and exit the sleep mode once after the sensor is configured (equivalent to soft reset) to ensure the normal reading of the measured data
-   * mode select to enter or exit sleep mode, it's enter sleep mode by default
-   *      true put the sensor to sleep
-   *      false wake up the sensor (automatically exit sleep mode after power down and restart)
-   */
   sensor.enterSleepMode();
   delay(50);
   sensor.enterSleepMode(false);

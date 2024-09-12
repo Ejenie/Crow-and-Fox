@@ -46,7 +46,7 @@ void handleGesture() {    //функция состояний датчика ж�
           delay(700);
         }
         wingTurnLeft(90);
-        wingTurnRight(90);
+        wingTurnRight(110);
         tailOpen();
         delay(2000);
         for (int i = 0; i < 5; i++) {
