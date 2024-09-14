@@ -18,16 +18,12 @@ thresholds_now+=[(lmax[i],   100, 3, 88, 21, 127)for i in range(len(lmax))]
 print(*lmin)
 print(*lmax)
 
-green_led = pyb.LED(2)
-blue_led = pyb.LED(3)
-s1 = pyb.Servo(1)
 img = sensor.snapshot()
 w = img.width()
 h  = img.height()
 print(w, h)
 
 while True:
-    s1.angle(90)
     clock.tick()
     img = sensor.snapshot()
     mxBlob_first = None
@@ -37,7 +33,7 @@ while True:
 
     centre_servo = 0
     for blob in img.find_blobs(
-        thresholds_now, roi = (0, h*2//3, w, h),
+        thresholds_now, roi = (0, h*2//3,  w, h),
         pixels_threshold = 100,
         area_threshold = 100,
         merge = True

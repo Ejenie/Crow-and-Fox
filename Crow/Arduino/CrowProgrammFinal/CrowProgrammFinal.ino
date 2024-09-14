@@ -1,4 +1,4 @@
-//current on 08.09.24❤❤
+//current on 12.09.24❤❤
 #include <DFRobot_MLX90614.h>
 #include <DFRobotDFPlayerMini.h>
 #include <Servo.h>
@@ -22,7 +22,7 @@ void setup() {
   Serial.println("Hello");
   Serial3.begin(9600);
   Serial2.begin(9600);
-
+ 
   pinMode(DTX, INPUT);
   pinMode(CLKX, INPUT);
   pinMode(DT, INPUT);
@@ -114,28 +114,30 @@ void setup() {
 }
 
 void loop() {
-  if (flagBegin && (millis() - timerWait < 18000)) {    //вступительные слова рассказчика
+  //delay(7000);!!!!!!ЖЕНЯ ТЫ ДУРА!!!!!!!!!!!!!
+  while (flagBegin && (millis() - timerWait < 23000)) {    //вступительные слова рассказчика
+    //Serial.println("start");
     for (int i = 0; i < 3; i++) {
-      opening.write(0);
+      opening.write(10);
       delay(400);
       opening.write(50);
       delay(400);
     }
-    delay(3600);
+    delay(2800);
   }
-  opening.write(20);
-  if (Serial3.available() != 0 && (millis() - timerWait > 23000)) {   //запуск цикла отслеживания Лисы
+  if (Serial3.available() != 0) {   //запуск цикла отслеживания Лисы
     flagBegin  = false;
     pos = Serial3.read() - 80;
     pos = int((pos + pos_old) / 2);
     pos_old = pos;
+    Serial.println(pos);
 
-    if ((pos < 0 && pos > -5) || (pos > 0 && pos < 5)) {    //позиция Лисы - центр
+    /*if ((pos < 0 && pos > -5) || (pos > 0 && pos < 5)) {    //позиция Лисы - центр
       pos = 0;
       if (millis() - timerFox > 3000) {
         timerFox = millis();
         countFox++;
-        Serial.print("Кол-во появлений лисы:  ");
+        //Serial.print("Кол-во появлений лисы:  ");
         Serial.println(countFox);//
         switch (countFox) {   //действия Вороны на слова Лисы
           case 3:
@@ -169,12 +171,12 @@ void loop() {
           default: break;
         }
       }
-    }
+      }
 
-    wingTurnLeft(10);
-    wingTurnRight(170);
+      wingTurnLeft(10);
+      wingTurnRight(170);*/
 
-    if (pos != 0  && pos != -80) {    //регулятор отслеживания Лисы
+    /*if (pos != 0  && pos != -80) {    //регулятор отслеживания Лисы
       err = pos - (value / 4);
       u = err * kp + (err - err_old) * kd;
       err_old = err;
@@ -187,90 +189,90 @@ void loop() {
       Serial.print(pos);
       Serial.print("  ");
       Serial.print("enc = ");
-      Serial.println(value / 4);//*/
-      /*Serial.print("u = ");
-        Serial.print(u);*/
+      Serial.println(value / 4);//
+      Serial.print("u = ");
+      Serial.print(u);
 
-      motorA.set(u * kS);
+      motorA.set(u * kS);*/
 
-      if (kar && (value / 4) > -5 && (value / 4) < 5) {   //готовность к выстреливанию сыром
-        Serial.println("kar");
-        motorA.stop();
-        playerCrow.play(1);   //КАР!
-        strela.write(500);    //выстрел сыром
-        delay(1000);
-        strela.write(90);
+    /* if (kar && (value / 4) > -5 && (value / 4) < 5) {   //готовность к выстреливанию сыром
+       //Serial.println("kar");
+       motorA.stop();
+       playerCrow.play(1);   //КАР!
+       strela.write(500);    //выстрел сыром
+       delay(1000);
+       strela.write(90);
 
-        permanentLeds(pinLedEyeLeft, 0xFFFFFF);
-        permanentLeds(pinLedEyeRight, 0xFFFFFF);
+       permanentLeds(pinLedEyeLeft, 0xFFFFFF);
+       permanentLeds(pinLedEyeRight, 0xFFFFFF);
 
-        for (int i = 0; i < 3; i++) {
-          lidRight.write(140);
-          lidLeft.write(20);
-          delay(600);
-          lidRight.write(10);
-          lidLeft.write(170);
-          delay(600);
-        }
+       for (int i = 0; i < 3; i++) {
+         lidRight.write(140);
+         lidLeft.write(20);
+         delay(600);
+         lidRight.write(10);
+         lidLeft.write(170);
+         delay(600);
+       }
 
-        head.write(0);
-        for (int i = 0; i < 4; i++) {
-          opening.write(0);
-          delay(400);
-          opening.write(50);
-          delay(400);
-        }
-        opening.write(0);
-        delay(400);
+       head.write(0);
+       for (int i = 0; i < 4; i++) {
+         opening.write(0);
+         delay(400);
+         opening.write(50);
+         delay(400);
+       }
+       opening.write(0);
+       delay(400);
 
-        wingTurnRight(90);
-        wingTurnLeft(150);
-        for (int i = 0; i < 3; i++) {
-          wingPlaneRight(90);
-          wingPlaneLeft(90);
-          delay(600);
-          wingPlaneRight(170);
-          wingPlaneLeft(10);
-          delay(600);
-        }
-        permanentLeds(pinLedEyeLeft, 0x2222FF);
-        permanentLeds(pinLedEyeRight, 0x2222FF);
+       wingTurnRight(90);
+       wingTurnLeft(150);
+       for (int i = 0; i < 3; i++) {
+         wingPlaneRight(90);
+         wingPlaneLeft(90);
+         delay(600);
+         wingPlaneRight(170);
+         wingPlaneLeft(10);
+         delay(600);
+       }
+       permanentLeds(pinLedEyeLeft, 0x2222FF);
+       permanentLeds(pinLedEyeRight, 0x2222FF);
 
-        lidRight.write(50);
-        lidLeft.write(120);
+       lidRight.write(50);
+       lidLeft.write(120);
 
-        tailClosed();
-        wingTurnLeft(10);
-        wingTurnRight(170);
-        kar = false;
-        kS = 0;
+       tailClosed();
+       wingTurnLeft(10);
+       wingTurnRight(170);
+       kar = false;
+       kS = 0;
       }
 
       float ambientTemp = sensor.getAmbientTempCelsius();
       float objectTemp = sensor.getObjectTempCelsius();
 
       if ((ambientTemp > 600 && objectTemp >= -50)  || (ambientTemp > 20 && (objectTemp - ambientTemp) >= 10) && flagTemp) {   //обнаружение руки датчиком температуры
-        motorA.stop();
-        Serial.println("temp");
-        flagTemp = false;
-        tailOpen();   //открытие хвоста
-        head.write(100);
+       motorA.stop();
+       //Serial.println("temp");
+       flagTemp = false;
+       tailOpen();   //открытие хвоста
+       head.write(100);
 
-        permanentLeds(pinLedEyeLeft, 0xFF9900);
-        permanentLeds(pinLedEyeRight, 0xFF9900);
-        kar = true;
+       permanentLeds(pinLedEyeLeft, 0xFF9900);
+       permanentLeds(pinLedEyeRight, 0xFF9900);
+       kar = true;
       }
       else
-        handleGesture();  //выстрел по датчику жестов
+       handleGesture();  //выстрел по датчику жестов
 
       if (isr_flag == 1) {
-        detachInterrupt(5);
-        handleGesture();
-        isr_flag = 0;
-        attachInterrupt(5, interruptRoutine, FALLING);
-      }
-    }
-    else
-      motorA.stop();    //остановка в случае нахождения Лисы по центру
+       detachInterrupt(5);
+       handleGesture();
+       isr_flag = 0;
+       attachInterrupt(5, interruptRoutine, FALLING);
+      }*/
+    /*}
+      else
+      motorA.stop();    //остановка в случае нахождения Лисы по центру*/
   }
 }
