@@ -3,7 +3,7 @@ void setup() {
   Serial3.begin(9600);
 } 
 
-void loop() {
+void loop() { 
    Serial3.available() ? Serial.println(Serial3.read()) : Serial.print("");
 
 }

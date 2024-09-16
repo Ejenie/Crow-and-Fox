@@ -83,6 +83,10 @@ void handleGesture() {    //функция состояний датчика ж�
         motorA.stop();
         tailClosed();
         break;
+      case DIR_LEFT:    //движение рукой вверх: запасной вариант при отказе датчика тепла
+        permanentLeds(pinLedEyeLeft, 0x337FA2);
+        permanentLeds(pinLedEyeRight, 0x337FA2);
+        break;
       default:
         Serial.println("NONE");
     }
@@ -160,7 +164,7 @@ void setup() {
 
   head.attach(pinServoHand);
   opening.attach(pinServoOpening);
-                  
+
   wingTurnLeft(10);    //от 10 до 160
   wingTurnRight(170);   //от 170 до 70
 
@@ -174,6 +178,7 @@ void setup() {
   lidLeft.write(170);
 
   head.write(0);
+  opening.write(20);
 
   motor(130);
   delay(130);
@@ -184,22 +189,17 @@ void setup() {
   }
   encTail = 0;
   motor(0);
+  handleGesture();
+  delay(5000);
+  permanentLeds(pinLedEyeLeft, 0xDDAA00);
+  permanentLeds(pinLedEyeRight, 0xDDAA00);
+
 }
 
 void loop() {
-  if (flagBegin) {
-    delay(3000);
-    for (int i = 0; i < 2; i++) {
-      head.write(100);
-      delay(700);
-      head.write(0);
-      delay(700);
-    }
-    delay(1200);
-  }
   while (flagBegin && (millis() - timerWait < 23000)) {
     for (int i = 0; i < 3; i++) {
-      opening.write(0);
+      opening.write(20);
       delay(400);
       opening.write(50);
       delay(400);
@@ -259,16 +259,16 @@ void loop() {
       if (u < -30)
         u = -30;
 
-      Serial.print("pos = ");
-      Serial.print(pos);
-      Serial.print("  ");
-      Serial.print("enc = ");
-      Serial.print(value / 4);
-      Serial.print("  ");
-      Serial.print("u = ");
-      Serial.print(u);
-      Serial.print("  value / 4) = ");
-      Serial.println(value / 4);
+      /* Serial.print("pos = ");
+        Serial.print(pos);
+        Serial.print("  ");
+        Serial.print("enc = ");
+        Serial.print(value / 4);
+        Serial.print("  ");
+        Serial.print("u = ");
+        Serial.print(u);
+        Serial.print("  value / 4) = ");
+        Serial.println(value / 4); */
 
       motorA.set(u * kS);
 
@@ -312,23 +312,28 @@ void loop() {
           wingPlaneLeft(10);
           delay(600);
         }
+        wingTurnRight(170);
+        wingTurnLeft(10);
         permanentLeds(pinLedEyeLeft, 0x2222FF);
         permanentLeds(pinLedEyeRight, 0x2222FF);
 
         lidRight.write(50);
-        lidLeft.write(120);
+        lidLeft.write(105);
+        head.write(0);
         tailClosed();
 
-        kar = false;  
+        kar = false;
         kS = 0;
       }
 
       float ambientTemp = sensor.getAmbientTempCelsius();
       float objectTemp = sensor.getObjectTempCelsius();
-
-      if ((ambientTemp > 600 && objectTemp >= -50)  || (ambientTemp > 20 && (objectTemp - ambientTemp) >= 10) && flagTemp) {   //обнаружение руки датчиком температуры
+      if (flagTemp) {
+        Serial.print("Ambient celsius : "); Serial.print(ambientTemp); Serial.println(" °C");
+        Serial.print("Object celsius : ");  Serial.print(objectTemp);  Serial.println(" °C");
+      }
+      if ((ambientTemp > 600.0 && objectTemp >= -7.0)  || (ambientTemp > 18.0 && (objectTemp - ambientTemp) >= 10.0) && flagTemp) {   //обнаружение руки датчиком температуры
         motorA.stop();
-        Serial.println("temp");
         flagTemp = false;
         tailOpen();   //открытие хвоста
 
