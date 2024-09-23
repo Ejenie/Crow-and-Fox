@@ -21,14 +21,14 @@ void init_motor_tail() {
   pinMode(INB, OUTPUT);
   pinMode(INA, OUTPUT);
 }
-
 void init_enc_rotation() {
   attachInterrupt(digitalPinToInterrupt(3), ann_enc, RISING);
 }
+
 int32_t value = 0;
 
 void ann_enc() {
-  if (digitalRead(41))
+  if (digitalRead(DTX))
     value--;
   else
     value++;
