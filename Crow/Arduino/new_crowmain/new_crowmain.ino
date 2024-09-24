@@ -112,7 +112,6 @@ void setup() {
   pinMode(DTX, INPUT);
   pinMode(CLKX, INPUT);
 
-
   if (apds.init()) {    // инициализация APDS-9960
     Serial.println(F("APDS-9960 initialization complete"));
   }
@@ -143,7 +142,6 @@ void setup() {
   sensor.setEmissivityCorrectionCoefficient(1.0);
   sensor.setI2CAddress(0x00);
   sensor.setMeasuredParameters(sensor.eIIR100, sensor.eFIR1024);
-
 
   sensor.enterSleepMode();    //импульс датчика тепла
   delay(50);

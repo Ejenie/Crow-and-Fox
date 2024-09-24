@@ -21,15 +21,19 @@ void init_motor_tail() {
   pinMode(INB, OUTPUT);
   pinMode(INA, OUTPUT);
 }
-void init_enc_rotation() {
-  attachInterrupt(digitalPinToInterrupt(3), ann_enc, RISING);
-}
 
-int32_t value = 0;
-
-void ann_enc() {
-  if (digitalRead(DTX))
-    value--;
-  else
-    value++;
+void motor (int v1) {
+  analogWrite(PWM, (v1 < 0) ? (v1*-1) : v1 = v1);
+  if (v1 > 0) {
+    digitalWrite(INB, 1);
+    digitalWrite(INA, 0);
+  }
+  if (v1 < 0) {
+    digitalWrite(INB, 0);
+    digitalWrite(INA, 1);
+  }
+  if (v1 == 0) {
+    digitalWrite(INB, 1);
+    digitalWrite(INA, 1);
+  }
 }
