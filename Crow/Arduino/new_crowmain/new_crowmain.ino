@@ -154,7 +154,6 @@ void setup() {
   wingTurnL.attach(pinServoWingTurnLeft);
   wingTurnR.attach(pinServoWingTurnRight);
 
-
   wingPlaneL.attach(pinServoWingPlaneLeft);
   wingPlaneR.attach(pinServoWingPlaneRight);
 
@@ -187,7 +186,6 @@ void setup() {
   }
   encTail = 0;
   motor(0);
-  handleGesture();
   delay(5000);
   permanentLeds(pinLedEyeLeft, 0xDDAA00);
   permanentLeds(pinLedEyeRight, 0xDDAA00);

@@ -8,11 +8,13 @@
 
 void setup() {
   Serial.begin(9600);
+  Leds led;
+  led.init_leds();
   init_player();
-  init_temp();
+  //init_temp();
   init_enc_rotation();
   init_enc_tail();
-  init_leds();
+  //init_leds();
   init_motor_rotation();
   init_motor_tail();
   init_servo();
