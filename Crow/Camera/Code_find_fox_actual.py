@@ -9,12 +9,12 @@ sensor.set_auto_whitebal(False)
 clock = time.clock()
 serial = pyb.UART(3, 9600, timeout = 100, timeout_char = 100)
 serial.init(9600, bits=8, parity=None, stop=1, timeout_char=100)
-thresholds_first = [(20, 100, 3, 88, 21, 127)
+thresholds_first = [(10, 98, -18, 60, 20, 98)#(20, 100, 3, 88, 21, 127)
 ]
 lmin = [i for i in range(thresholds_first[0][0]+1)]
 lmax = [i for i in range(thresholds_first[0][0], thresholds_first[0][1]+1)]
 thresholds_now = [(lmin[i], 100, 3, 88, 21, 127) for i in range(len(lmin))]
-thresholds_now+=[(lmax[i],   100, 3, 88, 21, 127)for i in range(len(lmax))]
+thresholds_now+=[(lmax[i], 100, 3, 88, 21, 127)for i in range(len(lmax))]
 print(*lmin)
 print(*lmax)
 

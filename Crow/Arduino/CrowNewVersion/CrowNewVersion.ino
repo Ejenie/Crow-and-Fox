@@ -3,26 +3,35 @@
 #include "encoder.h"
 #include "leds.h"
 #include "servo.h"
-#include "other.h"
-#define timeCode 5000
+#define timeCode 20000
+
+Leds led;
+Rotation rot;
 
 void setup() {
   Serial.begin(9600);
-  Leds led;
+  Serial3.begin(9600);
   led.init_leds();
   init_player();
+  rot.init_motor_rotation();
+  rot.init_enc_rotation();
   //init_temp();
-  init_enc_rotation();
+  //init_enc_rotation();
   init_enc_tail();
   //init_leds();
-  init_motor_rotation();
+  //init_motor_rotation();
   init_motor_tail();
   init_servo();
+
+  basic_servo();
 }
 
 void loop() {
-  static uint32_t timer = millis();
-  playerCrow.play(1);   //КАР!
-  Serial.print(millis() - timer);
-  delay(10000);
+  /*static uint32_t timerCode = millis();
+  while (millis() - timerCode < timeCode)
+    ;
+  timerCode = millis();*/
+  while (true) {
+    rot.turn_fox();
+  }
 }

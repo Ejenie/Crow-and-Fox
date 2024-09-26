@@ -116,4 +116,5 @@ void basic_servo() {
 
   head.write(0);
   opening.write(20);
+  delay(200);
 }
