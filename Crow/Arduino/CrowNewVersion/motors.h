@@ -32,17 +32,15 @@ class Rotation {
     void motor_rot_stop() {   //+
       motorA.stop();
     }
-    void motor_rot_begin(int v) {   //+
+    void motor_rot_set(int v) {   //+
       motorA.set(v);
     }
-    void turn_fox() {
-      int pos = camera();
+    float turn_fox(int pos) {
       if (pos){
-        float u = pd_reg(pos, value / 4);
-        motor_rot_begin(u);
+        return pd_reg(pos, value / 4);
       }
       else {
-        motor_rot_stop();
+        return 0;
       }
     }
 };

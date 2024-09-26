@@ -28,10 +28,10 @@ void setup() {
 
 void loop() {
   /*static uint32_t timerCode = millis();
-  while (millis() - timerCode < timeCode)
+    while (millis() - timerCode < timeCode)
     ;
-  timerCode = millis();*/
-  while (true) {
-    rot.turn_fox();
-  }
+    timerCode = millis();*/
+  int pos = camera();
+  float u = rot.turn_fox(pos);
+  rot.motor_rot_set(u);
 }
