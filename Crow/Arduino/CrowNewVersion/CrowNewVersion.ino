@@ -1,12 +1,14 @@
 //#include "APDS9960.h"
 #include "MLX90614.h"
-#include "encoder.h"
 #include "leds.h"
 #include "servo.h"
-#define timeCode 20000
+#include "motors.h"
+#define timeCode 20
 
 Leds led;
 Rotation rot;
+Myservo servo;
+Tail tail;
 
 void setup() {
   Serial.begin(9600);
@@ -16,22 +18,22 @@ void setup() {
   rot.init_motor_rotation();
   rot.init_enc_rotation();
   //init_temp();
-  //init_enc_rotation();
-  init_enc_tail();
-  //init_leds();
-  //init_motor_rotation();
-  init_motor_tail();
-  init_servo();
+  tail.init_enc_tail();
+  tail.init_motor_tail();
+  servo.init_servo();
 
-  basic_servo();
+  servo.basic_servo();
 }
 
 void loop() {
-  /*static uint32_t timerCode = millis();
-    while (millis() - timerCode < timeCode)
+  static uint32_t timerCode = millis();   
+  while (millis() - timerCode < timeCode)
     ;
-    timerCode = millis();*/
-  int pos = camera();
+  timerCode = millis();
+  
+  int pos = camera().pos, countFox = camera().count;
+  
   float u = rot.turn_fox(pos);
+  
   rot.motor_rot_set(u);
 }

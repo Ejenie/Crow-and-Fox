@@ -36,7 +36,7 @@ class Rotation {
       motorA.set(v);
     }
     float turn_fox(int pos) {
-      if (pos){
+      if (pos) {
         return pd_reg(pos, value / 4);
       }
       else {
@@ -45,24 +45,36 @@ class Rotation {
     }
 };
 
-void init_motor_tail() {
-  pinMode(PWM, OUTPUT);
-  pinMode(INB, OUTPUT);
-  pinMode(INA, OUTPUT);
+int32_t encTail = 0;
+void isrTail() {
+  if (digitalRead(DT))
+    encTail++;
+  else
+    encTail--;
 }
-
-void motor (int v1) {
-  analogWrite(PWM, (v1 < 0) ? (v1 * -1) : v1 = v1);
-  if (v1 > 0) {
-    digitalWrite(INB, 1);
-    digitalWrite(INA, 0);
-  }
-  if (v1 < 0) {
-    digitalWrite(INB, 0);
-    digitalWrite(INA, 1);
-  }
-  if (v1 == 0) {
-    digitalWrite(INB, 1);
-    digitalWrite(INA, 1);
-  }
-}
+class Tail {
+  public:
+    void init_motor_tail() {
+      pinMode(PWM, OUTPUT);
+      pinMode(INB, OUTPUT);
+      pinMode(INA, OUTPUT);
+    }
+    void init_enc_tail() {
+      attachInterrupt(digitalPinToInterrupt(CLK), isrTail, RISING);
+    }
+    void motor_tail (int v1) {
+      analogWrite(PWM, myabs(v1));
+      if (v1 > 0) {
+        digitalWrite(INB, 1);
+        digitalWrite(INA, 0);
+      }
+      if (v1 < 0) {
+        digitalWrite(INB, 0);
+        digitalWrite(INA, 1);
+      }
+      if (v1 == 0) {
+        digitalWrite(INB, 1);
+        digitalWrite(INA, 1);
+      }
+    }
+};

@@ -9,112 +9,135 @@
 #define pinServoHand 8
 #define pinServoOpening 7
 
-Servo lidLeft;
-Servo lidRight;
-Servo opening;
-Servo head;
-Servo strela;
-Servo wingTurnL;
-Servo wingTurnR;
-Servo wingPlaneL;
-Servo wingPlaneR;
+class Myservo {
+  private:
+    Servo lidLeft;
+    Servo lidRight;
+    Servo opening;
+    Servo head;
+    Servo strela;
+    Servo wingTurnL;
+    Servo wingTurnR;
+    Servo wingPlaneL;
+    Servo wingPlaneR;
+  public:
+    void init_servo() {
+      lidLeft.attach(pinServoEyeLeft);    //инициализация серво-моторов
+      lidRight.attach(pinServoEyeRight);
 
-void wingTurnRight(int desiredPosition) {
-  static int currentPosition = 180;
+      wingTurnL.attach(pinServoWingTurnLeft);
+      wingTurnR.attach(pinServoWingTurnRight);
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+      wingPlaneL.attach(pinServoWingPlaneLeft);
+      wingPlaneR.attach(pinServoWingPlaneRight);
 
-  wingTurnR.write(currentPosition);
-}
+      strela.attach(pinServoStrela);
 
-void wingTurnLeft(int desiredPosition) {
-  static int currentPosition = 0;
+      head.attach(pinServoHand);
+      opening.attach(pinServoOpening);
+    }
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+    void wingTurnRight(int desiredPosition) {
+      static int currentPosition = 180;
 
-  wingTurnL.write(currentPosition);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void wingPlaneRight(int desiredPosition) { //max - 120 min - 80
-  static int currentPosition = 180;
+      wingTurnR.write(currentPosition);
+    }
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+    void wingTurnLeft(int desiredPosition) {
+      static int currentPosition = 0;
 
-  wingPlaneR.write(currentPosition);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void wingPlaneLeft(int desiredPosition) { //max - 120 min - 80
-  static int currentPosition = 0;
+      wingTurnL.write(currentPosition);
+    }
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+    void wingPlaneRight(int desiredPosition) { //max - 120 min - 80
+      static int currentPosition = 180;
 
-  wingPlaneL.write(currentPosition);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void moveLidLeft(int desiredPosition) {
-  static int currentPosition = 0;
+      wingPlaneR.write(currentPosition);
+    }
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+    void wingPlaneLeft(int desiredPosition) { //max - 120 min - 80
+      static int currentPosition = 0;
 
-  lidLeft.write(currentPosition);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void moveLidRight(int desiredPosition) {
-  static int currentPosition = 90;
+      wingPlaneL.write(currentPosition);
+    }
 
-  while (currentPosition > desiredPosition)
-    currentPosition -= 1;
-  while (currentPosition < desiredPosition)
-    currentPosition += 1;
+    void moveLidLeft(int desiredPosition) {
+      static int currentPosition = 0;
 
-  lidRight.write(currentPosition);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void init_servo() {
-  lidLeft.attach(pinServoEyeLeft);    //инициализация серво-моторов
-  lidRight.attach(pinServoEyeRight);
+      lidLeft.write(currentPosition);
+    }
 
-  wingTurnL.attach(pinServoWingTurnLeft);
-  wingTurnR.attach(pinServoWingTurnRight);
+    void moveLidRight(int desiredPosition) {
+      static int currentPosition = 90;
 
-  wingPlaneL.attach(pinServoWingPlaneLeft);
-  wingPlaneR.attach(pinServoWingPlaneRight);
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-  strela.attach(pinServoStrela);
+      lidRight.write(currentPosition);
+    }
+    void moveHead(int desiredPosition) {
+      static int currentPosition = 0;
 
-  head.attach(pinServoHand);
-  opening.attach(pinServoOpening);
-}
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-void basic_servo() {
-  wingTurnLeft(10);    //от 10 до 160
-  wingTurnRight(170);   //от 170 до 70
+      head.write(currentPosition);
+    }
+    
+    void moveOpening(int desiredPosition) {
+      static int currentPosition = 0;
 
-  wingPlaneLeft(10);
-  wingPlaneRight(170);
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
 
-  moveLidLeft(170);
-  moveLidRight(10);
+      opening.write(currentPosition);
+    }
 
-  lidRight.write(10);
-  lidLeft.write(170);
+    void basic_servo() {
+      uint32_t timerServo = millis();
+      if (millis() - timerServo < 200) {
+        wingTurnLeft(10);    //от 10 до 160
+        wingTurnRight(170);   //от 170 до 70
 
-  head.write(0);
-  opening.write(20);
-  delay(200);
-}
+        wingPlaneLeft(10);
+        wingPlaneRight(170);
+
+        moveLidLeft(170);
+        moveLidRight(10);
+
+        moveHead(0);
+        moveOpening(20);
+      }
+    }
+};

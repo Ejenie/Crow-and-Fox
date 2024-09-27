@@ -18,18 +18,17 @@ class Leds {
         FastLED.show();
       }
     }
+    int valOnModule(int val, int mod) {
+      return (val + mod) % mod;
+    }
+
+    void changeLeds(int pinLedEye, uint32_t color, int countOnLeds, int timePause) {
+      uint32_t timerLed = millis();
+      for (int i = 0; i < countLeds; ++i) {
+        (pinLedEye == pinLedEyeLeft) ? (ledLeft[i] = color) : (ledRight[i] = color);
+        (pinLedEye == pinLedEyeLeft) ? (ledLeft[valOnModule(i - countOnLeds, countLeds)] = 0) : (ledRight[valOnModule(i - countOnLeds, countLeds)] = 0);
+        FastLED.show();
+        delay(timePause);
+      }
+    }
 };
-
-/*int valOnModule(int val, int mod) {
-  return (val + mod) % mod;
-}
-
-void changeLeds(int pinLedEye, uint32_t color, int countOnLeds, int timePause) {
-  uint32_t timerLed = millis();
-  for (int i = 0; i < countLeds; ++i) {
-    (pinLedEye == pinLedEyeLeft) ? (ledLeft[i] = color) : (ledRight[i] = color);
-    (pinLedEye == pinLedEyeLeft) ? (ledLeft[valOnModule(i - countOnLeds, countLeds)] = 0) : (ledRight[valOnModule(i - countOnLeds, countLeds)] = 0);
-    FastLED.show();
-    delay(timePause);
-  }
-}*/
