@@ -9,6 +9,17 @@
 #define pinServoHand 8
 #define pinServoOpening 7
 
+typedef struct {
+  int wTr;
+  int wTl;
+  int wPr;
+  int wPl;
+  int mLr;
+  int mLl;
+  int mH;
+  int mO;
+} ServoPos;
+
 class Myservo {
   private:
     Servo lidLeft;
@@ -102,7 +113,7 @@ class Myservo {
 
       lidRight.write(currentPosition);
     }
-    
+
     void moveHead(int desiredPosition) {
       static int currentPosition = 0;
 
@@ -141,12 +152,42 @@ class Myservo {
         moveOpening(20);
       }
     }
-   /* void strela(bool flagStrela) {
-      if (flagStrela) {
-        strela.write(500);
-        uint32_t timerStrela = millis();
-        if (millis() - timerStrela > 1000)
-          strela.write(90);
+    ServoPos positionServo(int countFox, bool kar, bool flagKar) {
+      ServoPos result;
+      switch (countFox) {
+        case 3:
+          result.mH = 100;
+          result.mLr = 140;
+          result.mLl = 30;
+          //придумать
+          break;
+        case 5:
+          result.wTr = 160;
+          result.wTl = 20;
+          break;
       }
-    }*/
+      if (kar) {
+        result.wPr = 90;
+        result.wPl = 90;
+      }
+      if (flagKar) {
+        //флаг стрелы
+        result.mLr = 140;
+        result.mLl = 20;
+        result.mH = 0;
+        result.mO = 50;
+        result.wTr = 90;
+        result.wTl = 150;
+        //придумать
+      }
+      return result;
+    }
+    /* void strela(bool flagStrela) {
+       if (flagStrela) {
+         strela.write(500);
+         uint32_t timerStrela = millis();
+         if (millis() - timerStrela > 1000)
+           strela.write(90);
+       }
+      }*/
 };

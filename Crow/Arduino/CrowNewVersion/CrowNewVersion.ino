@@ -35,9 +35,12 @@ void loop() {
   float objTemp = objectTemp(), ambTemp = ambientTemp();
 
   float u = rot.turn_fox(pos);
-  int wTr = 0, wTl = 0, wPr = 0, wPl = 0, mLr = 0, mLl = 0, mH = 0, mO = 0;
   bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
   bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
+  ServoPos sP = servo.positionServo(countFox, kar, flagKar);
+  int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr, 
+      wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl, 
+      mH = sP.mH, mO = sP.mO;
 
   rot.motor_rot_set(u);
   servo.wingTurnRight(wTr);
