@@ -135,6 +135,17 @@ class Myservo {
 
       opening.write(currentPosition);
     }
+    
+    void moveStrela(int desiredPosition) {
+      static int currentPosition = 0;
+
+      while (currentPosition > desiredPosition)
+        currentPosition -= 1;
+      while (currentPosition < desiredPosition)
+        currentPosition += 1;
+
+      strela.write(currentPosition);
+    }
 
     void basic_servo() {
       uint32_t timerServo = millis();
@@ -182,12 +193,4 @@ class Myservo {
       }
       return result;
     }
-    /* void strela(bool flagStrela) {
-       if (flagStrela) {
-         strela.write(500);
-         uint32_t timerStrela = millis();
-         if (millis() - timerStrela > 1000)
-           strela.write(90);
-       }
-      }*/
 };

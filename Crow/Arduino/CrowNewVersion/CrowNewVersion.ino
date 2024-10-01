@@ -51,5 +51,5 @@ void loop() {
   servo.moveLidLeft(mLl);
   servo.moveHead(mH);
   servo.moveOpening(mO);
-  //servo.strela(flagKar);
+  
 }
