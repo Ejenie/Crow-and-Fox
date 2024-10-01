@@ -27,8 +27,18 @@ PosCount camera() {
     if (myabs(result.pos) > 0 && myabs(result.pos) < 5)
       result.count++;
   }
-return result;
+  return result;
 }
+/*int camera() {
+  static int pos_old = 0;
+  int pos;
+  if (Serial3.available()) {
+    pos = Serial3.read() - 80;
+    pos = int((pos + pos_old) / 2);
+    pos_old = pos;
+  }
+  return pos;
+}*/
 float pd_reg(int pos, uint32_t value_conv) {
   static int err = 0, err_old = 0;
   static float u = 0, kp = 1, kd = 1.6, kS = 0.96;

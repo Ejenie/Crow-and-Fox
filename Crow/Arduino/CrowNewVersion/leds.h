@@ -12,12 +12,14 @@ class Leds {
       FastLED.addLeds<NEOPIXEL, pinLedEyeLeft>(ledLeft, countLeds);   //объявление светодиодных матриц
       FastLED.addLeds<NEOPIXEL, pinLedEyeRight>(ledRight, countLeds);
     }
+    
     void permanentLeds(int pinLedEye, uint32_t color) {
       for (int i = 0; i < countLeds; ++i) {
         (pinLedEye == pinLedEyeLeft) ? (ledLeft[i] = color) : (ledRight[i] = color);
         FastLED.show();
       }
     }
+    
     int valOnModule(int val, int mod) {
       return (val + mod) % mod;
     }

@@ -43,6 +43,14 @@ class Rotation {
         return 0;
       }
     }
+    int need_for_a_motor(bool flagKar, int pos) {
+      if (!flagKar){
+        return turn_fox(pos);
+      }
+      else {
+        return 0;
+      }
+    }
 };
 
 int32_t encTail = 0;

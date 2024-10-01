@@ -50,106 +50,115 @@ class Myservo {
 
     void wingTurnRight(int desiredPosition) {
       static int currentPosition = 180;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      wingTurnR.write(currentPosition);
+      if (millis() - timer < 20)
+        wingTurnR.write(currentPosition);
     }
 
     void wingTurnLeft(int desiredPosition) {
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      wingTurnL.write(currentPosition);
+      if (millis() - timer < 20)
+        wingTurnL.write(currentPosition);
     }
 
     void wingPlaneRight(int desiredPosition) { //max - 120 min - 80
       static int currentPosition = 180;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      wingPlaneR.write(currentPosition);
+      if (millis() - timer < 20)
+        wingPlaneR.write(currentPosition);
     }
 
     void wingPlaneLeft(int desiredPosition) { //max - 120 min - 80
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      wingPlaneL.write(currentPosition);
+      if (millis() - timer < 20)
+        wingPlaneL.write(currentPosition);
     }
 
     void moveLidLeft(int desiredPosition) {
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      lidLeft.write(currentPosition);
+      if (millis() - timer < 20)
+        lidLeft.write(currentPosition);
     }
 
     void moveLidRight(int desiredPosition) {
       static int currentPosition = 90;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      lidRight.write(currentPosition);
+      if (millis() - timer < 20)
+        lidRight.write(currentPosition);
     }
 
     void moveHead(int desiredPosition) {
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      head.write(currentPosition);
+      if (millis() - timer < 20)
+        head.write(currentPosition);
     }
 
     void moveOpening(int desiredPosition) {
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      opening.write(currentPosition);
+      if (millis() - timer < 20)
+        opening.write(currentPosition);
     }
-    
+
     void moveStrela(int desiredPosition) {
       static int currentPosition = 0;
+      uint32_t timer = millis();
 
       while (currentPosition > desiredPosition)
         currentPosition -= 1;
       while (currentPosition < desiredPosition)
         currentPosition += 1;
-
-      strela.write(currentPosition);
+      if (millis() - timer < 20)
+        strela.write(currentPosition);
     }
 
     void basic_servo() {
       uint32_t timerServo = millis();
-      if (millis() - timerServo < 200) {
+      if (millis() - timerServo < 20) {
         wingTurnLeft(10);    //от 10 до 160
         wingTurnRight(170);   //от 170 до 70
 
