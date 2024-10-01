@@ -102,6 +102,7 @@ class Myservo {
 
       lidRight.write(currentPosition);
     }
+    
     void moveHead(int desiredPosition) {
       static int currentPosition = 0;
 
@@ -112,7 +113,7 @@ class Myservo {
 
       head.write(currentPosition);
     }
-    
+
     void moveOpening(int desiredPosition) {
       static int currentPosition = 0;
 
@@ -140,4 +141,12 @@ class Myservo {
         moveOpening(20);
       }
     }
+   /* void strela(bool flagStrela) {
+      if (flagStrela) {
+        strela.write(500);
+        uint32_t timerStrela = millis();
+        if (millis() - timerStrela > 1000)
+          strela.write(90);
+      }
+    }*/
 };

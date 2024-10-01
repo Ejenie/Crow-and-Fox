@@ -53,6 +53,9 @@ void isrTail() {
     encTail--;
 }
 class Tail {
+  private:
+    int tail_lim = 6000;
+    int tail_Clos = 10;
   public:
     void init_motor_tail() {
       pinMode(PWM, OUTPUT);
@@ -76,5 +79,33 @@ class Tail {
         digitalWrite(INB, 1);
         digitalWrite(INA, 1);
       }
+    }
+    void tailOpen() {
+      while (myabs(encTail) < tail_lim)
+        motor_tail(-20);
+      while (myabs(encTail) > tail_lim)
+        motor_tail(190);
+      motor_tail(0);
+    }
+    void tailClosed() {
+      while (myabs(encTail) > tail_Clos) {
+        motor_tail(190);
+      }
+      while (myabs(encTail) < tail_Clos) {
+        motor_tail(-20);
+      }
+      motor_tail(0);
+    }
+    void calibrovka() {
+      int tailCurrentLimit = 0;
+      motor_tail(130);
+      delay(130);
+      while (tailCurrentLimit <= 100) {
+        tailCurrentLimit = analogRead(A2);
+        Serial.println("tail");
+        Serial.println(tailCurrentLimit);
+      }
+      encTail = 0;
+      motor_tail(0);
     }
 };

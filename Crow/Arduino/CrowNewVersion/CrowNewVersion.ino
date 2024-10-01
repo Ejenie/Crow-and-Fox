@@ -26,14 +26,27 @@ void setup() {
 }
 
 void loop() {
-  static uint32_t timerCode = millis();   
+  static uint32_t timerCode = millis();
   while (millis() - timerCode < timeCode)
     ;
   timerCode = millis();
-  
+
   int pos = camera().pos, countFox = camera().count;
-  
+  float objTemp = objectTemp(), ambTemp = ambientTemp();
+
   float u = rot.turn_fox(pos);
-  
+  int wTr = 0, wTl = 0, wPr = 0, wPl = 0, mLr = 0, mLl = 0, mH = 0, mO = 0;
+  bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
+  bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
+
   rot.motor_rot_set(u);
+  servo.wingTurnRight(wTr);
+  servo.wingTurnLeft(wTl);
+  servo.wingPlaneRight(wPr);
+  servo.wingPlaneLeft(wPl);
+  servo.moveLidRight(mLr);
+  servo.moveLidLeft(mLl);
+  servo.moveHead(mH);
+  servo.moveOpening(mO);
+  //servo.strela(flagKar);
 }

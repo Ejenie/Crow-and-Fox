@@ -11,6 +11,12 @@ void init_player() {
   playerCrow.volume(30);      //от 10 до 30
 }
 
+int myabs(int num) {
+  if (num < 0)
+    num *= -1;
+  return num;
+}
+
 PosCount camera() {
   static int pos_old = 0;
   PosCount result;
@@ -18,9 +24,10 @@ PosCount camera() {
     result.pos = Serial3.read() - 80;
     result.pos = int((result.pos + pos_old) / 2);
     pos_old = result.pos;
-    result.count += !bool(result.pos);
+    if (myabs(result.pos) > 0 && myabs(result.pos) < 5)
+      result.count++;
   }
-  return result;
+return result;
 }
 float pd_reg(int pos, uint32_t value_conv) {
   static int err = 0, err_old = 0;
@@ -33,10 +40,4 @@ float pd_reg(int pos, uint32_t value_conv) {
   if (u < -30)
     u = -30;
   return u * kS;
-}
-
-int myabs(int num) {
-  if (num < 0)
-    num *= -1;
-  return num;
 }
