@@ -30,8 +30,10 @@ void loop() {
   while (millis() - timerCode < timeCode);
   timerCode = millis();
 
-  int pos = camera().pos, countFox = camera().count;
-  float objTemp = objectTemp(), ambTemp = ambientTemp();
+  PosCount fox = camera();
+  int pos = fox.pos, countFox = fox.count;
+  Serial.println(pos);
+  /*float objTemp = objectTemp(), ambTemp = ambientTemp();
 
   bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
   bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
@@ -49,5 +51,5 @@ void loop() {
   servo.moveLidRight(mLr);
   servo.moveLidLeft(mLl);
   servo.moveHead(mH);
-  servo.moveOpening(mO);
+  servo.moveOpening(mO);*/
 }

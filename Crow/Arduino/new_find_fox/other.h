@@ -18,13 +18,14 @@ int myabs(int num) {
 }
 int filtr(int pos) {
   static int pos_old = pos;
-  pos -= 80;
+  pos-=80;
   if (pos > 100)
     pos = pos_old;
   pos = int((pos + pos_old) / 2);
   pos_old = pos;
   return pos;
 }
+
 PosCount camera() {
   PosCount result;
   if (Serial3.available()) {
