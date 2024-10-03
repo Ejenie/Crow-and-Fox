@@ -172,13 +172,41 @@ class Myservo {
         moveOpening(20);
       }
     }
-    ServoPos positionServo(int countFox, bool kar, bool flagKar) {
+    void Begin() {
+      static uint32_t timerBegin = millis();
+      while (millis() - timerBegin < 23000) {
+        if (millis() % 4600 < 2800) {
+          for (int i = 0; i < 3; i++) {
+            if (millis() % 800 < 400) {
+              moveOpening(20);
+            }
+            else if (millis() % 800 < 800) {
+              moveOpening(50);
+            }
+          }
+        }
+      }
+    }
+    ServoPos positionServo(int countFox) { //, bool kar, bool flagKar) {
       ServoPos result;
       switch (countFox) {
         case 3:
-          result.mH = 100;
-          result.mLr = 140;
-          result.mLl = 30;
+          for (int i = 0; i < 3; i++) {
+            if (millis() % 1400 < 700) {
+              result.mH = 100;
+            }
+            else if (millis() % 1400 < 1400) {
+              result.mH = 0;
+            }
+          }
+          if (millis() % 1000 < 500) {
+            result.mLr = 140;
+            result.mLl = 30;
+          }
+          else if (millis() % 1000 < 1000) {
+            result.mLr = 10;
+            result.mLl = 170;
+          }
           //придумать
           break;
         case 5:
@@ -186,11 +214,11 @@ class Myservo {
           result.wTl = 20;
           break;
       }
-      if (kar) {
+      /*if (kar) {
         result.wPr = 90;
         result.wPl = 90;
-      }
-      if (flagKar) {
+        }
+        if (flagKar) {
         //флаг стрелы
         result.mLr = 140;
         result.mLl = 20;
@@ -199,7 +227,7 @@ class Myservo {
         result.wTr = 90;
         result.wTl = 150;
         //придумать
-      }
+        }*/
       return result;
     }
 };

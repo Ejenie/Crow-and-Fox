@@ -23,33 +23,39 @@ void setup() {
   servo.init_servo();
 
   servo.basic_servo();
+
+  led.permanentLeds(pinLedEyeLeft, 0xDDAA00);
+  led.permanentLeds(pinLedEyeRight, 0xDDAA00);
+  tail.calibrovka();
+  servo.Begin();
 }
 
 void loop() {
+  static bool flagBegin = true;
   static uint32_t timerCode = millis();
   while (millis() - timerCode < timeCode);
   timerCode = millis();
 
   PosCount fox = camera();
   int pos = fox.pos, countFox = fox.count;
-  Serial.println(pos);
   float objTemp = objectTemp(), ambTemp = ambientTemp();
 
   bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
-  bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
-  ServoPos sP = servo.positionServo(countFox, kar, flagKar);
-  int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
+  bool flagKar = false;//(kar && (value / 4) > -5 && (value / 4) < 5);
+  ServoPos sP = servo.positionServo(countFox);//, kar, flagKar);
+  Serial.println(countFox);
+  /*int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
       wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl,
-      mH = sP.mH, mO = sP.mO;
+      mH = sP.mH, mO = sP.mO;*/
   float u = rot.need_for_a_motor(flagKar, pos); //rot.turn_fox(pos);
 
   rot.motor_rot_set(u);
-  servo.wingTurnRight(wTr);
-  servo.wingTurnLeft(wTl);
-  servo.wingPlaneRight(wPr);
-  servo.wingPlaneLeft(wPl);
-  servo.moveLidRight(mLr);
-  servo.moveLidLeft(mLl);
-  servo.moveHead(mH);
-  servo.moveOpening(mO);
+  /*servo.wingTurnRight(wTr);
+    servo.wingTurnLeft(wTl);
+    servo.wingPlaneRight(wPr);
+    servo.wingPlaneLeft(wPl);
+    servo.moveLidRight(mLr);
+    servo.moveLidLeft(mLl);
+    servo.moveHead(mH);
+    servo.moveOpening(mO);*/
 }
