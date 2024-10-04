@@ -207,11 +207,18 @@ class Myservo {
             result.mLr = 10;
             result.mLl = 170;
           }
-          //придумать
           break;
         case 5:
-          result.wTr = 160;
-          result.wTl = 20;
+          for (int i = 0; i < 3; i++) {
+            if (millis() % 1200 < 600) {
+              result.wTr = 20;
+              result.wTl = 160;
+            }
+            else if (millis() % 1200 < 1200) {
+              result.wTr = 110;
+              result.wTl = 110;
+            }
+          }
           break;
       }
       /*if (kar) {

@@ -16,21 +16,20 @@ int myabs(int num) {
     num *= -1;
   return num;
 }
-int filtr(int pos) {
-  static int pos_old = pos;
-  pos -= 80;
-  if (pos > 100)
-    pos = pos_old;
-  pos = int((pos + pos_old) / 2);
-  pos_old = pos;
-  return pos;
-}
+
 PosCount camera() {
   PosCount result;
   if (Serial3.available()) {
-    result.pos = filtr(Serial3.read());
-    if (myabs(result.pos) > 0 && myabs(result.pos) < 5)
+    result.pos = Serial3.read();
+    static int pos_old = 0;
+    result.pos -= 80;
+    if (result.pos > 100)
+      result.pos = pos_old;
+    result.pos = int((result.pos + pos_old) / 2);
+    if ((myabs(result.pos) > 0 && myabs(result.pos) < 3) && (micros() % 2000) < 1000 && pos_old != result.pos) {
       result.count++;
+    }    
+    pos_old = result.pos;
   }
   return result;
 }

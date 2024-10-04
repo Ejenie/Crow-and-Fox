@@ -44,7 +44,7 @@ class Rotation {
       }
     }
     int need_for_a_motor(bool flagKar, int pos) {
-      if (!flagKar){
+      if (!flagKar) {
         return turn_fox(pos);
       }
       else {
@@ -88,12 +88,14 @@ class Tail {
         digitalWrite(INA, 1);
       }
     }
-    void tailOpen() {
-      while (myabs(encTail) < tail_lim)
-        motor_tail(-20);
-      while (myabs(encTail) > tail_lim)
-        motor_tail(190);
-      motor_tail(0);
+    void tailOpen(bool flag) {
+      if (flag) {
+        while (myabs(encTail) < tail_lim)
+          motor_tail(-20);
+        while (myabs(encTail) > tail_lim)
+          motor_tail(190);
+        motor_tail(0);
+      }
     }
     void tailClosed() {
       while (myabs(encTail) > tail_Clos) {
