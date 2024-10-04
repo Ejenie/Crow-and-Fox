@@ -18,6 +18,7 @@ typedef struct {
   int mLl;
   int mH;
   int mO;
+  int mS;
 } ServoPos;
 
 class Myservo {
@@ -187,9 +188,34 @@ class Myservo {
         }
       }
     }
-    ServoPos positionServo(int countFox) { //, bool kar, bool flagKar) {
+    ServoPos positionServo(int countFox, bool kar, bool flagKar) {
       ServoPos result;
+      /*if (!countFox && !kar && !flagKar) {
+        result.wTl = 10;
+        result.wTr = 170;
+
+        result.wPl = 10;
+        result.wPr = 170;
+
+        result.mLl = 170;
+        result.mLr = 0;
+
+        result.mH = 0;
+        result.mO = 20;
+        }*/
       switch (countFox) {
+        case 0:
+          result.wTl = 10;
+          result.wTr = 170;
+
+          result.wPl = 10;
+          result.wPr = 170;
+
+          result.mLl = 170;
+          result.mLr = 0;
+
+          result.mH = 0;
+          result.mO = 20;
         case 3:
           for (int i = 0; i < 3; i++) {
             if (millis() % 1400 < 700) {
@@ -209,10 +235,13 @@ class Myservo {
           }
           break;
         case 5:
+          result.mH = 0;
+          result.mLl = 170;
+          result.mLr = 10;
           for (int i = 0; i < 3; i++) {
             if (millis() % 1200 < 600) {
-              result.wTr = 20;
-              result.wTl = 160;
+              result.wTr = 160;
+              result.wTl = 20;
             }
             else if (millis() % 1200 < 1200) {
               result.wTr = 110;
@@ -221,20 +250,29 @@ class Myservo {
           }
           break;
       }
-      /*if (kar) {
+      if (kar) {
         result.wPr = 90;
         result.wPl = 90;
+        result.mH = 100;
+      }
+      if (flagKar) {
+        if (millis() % 2000 < 1000) {
+          result.mS = 500;
         }
-        if (flagKar) {
-        //флаг стрелы
-        result.mLr = 140;
-        result.mLl = 20;
-        result.mH = 0;
-        result.mO = 50;
-        result.wTr = 90;
-        result.wTl = 150;
-        //придумать
-        }*/
+        else if (millis() % 2000 < 2000) {
+          result.mS = 90;
+        }
+        for (int i = 0; i < 3; i++) {
+          if (millis() % 1200 < 600) {
+            result.mLr = 140;
+            result.mLl = 20;
+          }
+          else if (millis() % 1200 < 1200) {
+            result.mLr = 10;
+            result.mLl = 170;
+          }
+        }
+      }
       return result;
     }
 };

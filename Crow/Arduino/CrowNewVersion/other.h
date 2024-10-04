@@ -26,7 +26,7 @@ PosCount camera() {
     if (result.pos > 100)
       result.pos = pos_old;
     result.pos = int((result.pos + pos_old) / 2);
-    if ((myabs(result.pos) > 0 && myabs(result.pos) < 3) && (micros() % 2000) < 1000 && pos_old != result.pos) {
+    if ((myabs(result.pos) > 0 && myabs(result.pos) < 3) && (myabs(pos_old) > 0 && myabs(pos_old) < 3) && (micros() % 2000) < 1000 && pos_old != result.pos) {
       result.count++;
     }    
     pos_old = result.pos;

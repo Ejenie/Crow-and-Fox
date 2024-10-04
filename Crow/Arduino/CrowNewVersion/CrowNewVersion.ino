@@ -31,7 +31,6 @@ void setup() {
   led.permanentLeds(pinLedEyeRight, 0xDDAA00);
   tail.calibrovka();
   servo.Begin();
-
 }
 
 void loop() {
@@ -42,15 +41,18 @@ void loop() {
   PosCount fox = camera();
   static int co = fox.count;
   int pos = fox.pos, countFox = fox.count - co;
-  Serial.println(countFox);
   float objTemp = objectTemp(), ambTemp = ambientTemp();
 
-  bool kar = (objTemp - ambTemp) >= 10.0;//((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
+  bool kar = myabs(objTemp - ambTemp) >= 8.0;//((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
   bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
-  ServoPos sP = servo.positionServo(countFox); //kar, flagKar);
+  Serial.print("kar:  ");
+  Serial.print(kar);
+  Serial.print("  flagKar:  ");
+  Serial.println(flagKar);
+  ServoPos sP = servo.positionServo(countFox, kar, flagKar);
   int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
       wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl,
-      mH = sP.mH, mO = sP.mO;
+      mH = sP.mH, mO = sP.mO, mS = sP.mS;
   float u = rot.need_for_a_motor(flagKar, pos); //rot.turn_fox(pos);
 
   tail.tailOpen(kar);
@@ -63,4 +65,5 @@ void loop() {
   servo.moveLidLeft(mLl);
   servo.moveHead(mH);
   servo.moveOpening(mO);
+  servo.moveStrela(mS);
 }//*/

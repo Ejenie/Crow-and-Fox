@@ -231,6 +231,7 @@ void loop() {
             permanentLeds(pinLedEyeRight, 0xDDAA00);
             delay(500);
             break;
+  
           case 5:
             motorA.stop();
             for (int i = 0; i < 3; i++) {
