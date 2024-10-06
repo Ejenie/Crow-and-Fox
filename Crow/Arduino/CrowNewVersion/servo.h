@@ -1,4 +1,6 @@
 #include <Servo.h>
+#include <DFRobotDFPlayerMini.h>
+DFRobotDFPlayerMini playerCrow;
 #define pinServoEyeLeft 13
 #define pinServoEyeRight 35
 #define pinServoWingPlaneLeft 9
@@ -8,6 +10,13 @@
 #define pinServoStrela 48
 #define pinServoHand 8
 #define pinServoOpening 7
+
+bool flagKar0 = true;
+
+void init_player() {
+  playerCrow.begin(Serial2);  //инициализируем плеер
+  playerCrow.volume(30);      //от 10 до 30
+}
 
 typedef struct {
   int wTr;
@@ -216,6 +225,7 @@ class Myservo {
 
           result.mH = 0;
           result.mO = 20;
+          break;
         case 3:
           for (int i = 0; i < 3; i++) {
             if (millis() % 1400 < 700) {
@@ -256,21 +266,26 @@ class Myservo {
         result.mH = 100;
       }
       if (flagKar) {
+        /* uint32_t timerP = millis();
+          if (millis - timerP > 2000)
+           playerCrow.play(1);*/
         if (millis() % 2000 < 1000) {
           result.mS = 500;
         }
         else if (millis() % 2000 < 2000) {
           result.mS = 90;
+          
         }
-        for (int i = 0; i < 3; i++) {
-          if (millis() % 1200 < 600) {
-            result.mLr = 140;
-            result.mLl = 20;
-          }
-          else if (millis() % 1200 < 1200) {
-            result.mLr = 10;
-            result.mLl = 170;
-          }
+        else {
+          flagKar0 = false;
+        }
+        if (millis() % 1200 < 600) {
+          result.mLr = 140;
+          result.mLl = 20;
+        }
+        else if (millis() % 1200 < 1200) {
+          result.mLr = 10;
+          result.mLl = 170;
         }
       }
       return result;

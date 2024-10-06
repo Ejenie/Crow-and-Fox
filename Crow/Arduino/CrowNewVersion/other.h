@@ -1,20 +1,23 @@
-#include <DFRobotDFPlayerMini.h>
-DFRobotDFPlayerMini playerCrow;
-
 typedef struct {
   int pos;
   int count;
 } PosCount;
 
-void init_player() {
-  playerCrow.begin(Serial2);  //инициализируем плеер
-  playerCrow.volume(30);      //от 10 до 30
-}
+typedef struct {
+  bool kar;
+  bool flagKar;
+} Flag;
 
 int myabs(int num) {
   if (num < 0)
     num *= -1;
   return num;
+}
+int sign(int a) {
+  if (a > 0)
+    return 1;
+  else
+    return -1;
 }
 
 PosCount camera() {

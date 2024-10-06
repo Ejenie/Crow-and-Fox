@@ -1,5 +1,6 @@
 #include <Motors.h>
 #include "other.h"
+#include "servo.h"
 
 #define CLK 2
 #define DT 40
@@ -47,7 +48,7 @@ class Rotation {
       if (!flagKar) {
         return turn_fox(pos);
       }
-      else {
+      else{
         return 0;
       }
     }

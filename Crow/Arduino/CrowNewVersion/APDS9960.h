@@ -1,4 +1,4 @@
-#include <Wire.h>                             // Подключаем библиотеку Wire
+/*#include <Wire.h>                             // Подключаем библиотеку Wire
 #include <SparkFun_APDS9960.h>                // Подключаем библиотеку SparkFun_APDS9960
 
 int isr_flag = 0;
@@ -24,4 +24,4 @@ int handleGesture() {    //функция состояний датчика же
         return 0;
     }
   }
-}
+}*/

@@ -1,8 +1,8 @@
+
 //current on 13.09❤❤
 #include <DFRobot_MLX90614.h>
 #include <DFRobotDFPlayerMini.h>
 #include <Servo.h>
-#include <ServoSmooth.h>
 #include <Motors.h>
 
 #include "eyes.h"
@@ -177,7 +177,7 @@ void setup() {
   head.write(0);
   opening.write(20);
 
-  motor(130);
+  /*motor(130);
   delay(130);
   while (TailCurrentLimit <= 100) {
     TailCurrentLimit = analogRead(A2);
@@ -186,7 +186,7 @@ void setup() {
   }
   encTail = 0;
   motor(0);
-  delay(5000);
+  delay(5000);*/
   permanentLeds(pinLedEyeLeft, 0xDDAA00);
   permanentLeds(pinLedEyeRight, 0xDDAA00);
 
@@ -317,7 +317,7 @@ void loop() {
         lidRight.write(50);
         lidLeft.write(105);
         head.write(0);
-        tailClosed();
+       // tailClosed();
 
         kar = false;
         kS = 0;
@@ -332,7 +332,7 @@ void loop() {
       if ((ambientTemp > 600.0 && objectTemp >= -7.0)  || (ambientTemp > 18.0 && (objectTemp - ambientTemp) >= 10.0) && flagTemp) {   //обнаружение руки датчиком температуры
         motorA.stop();
         flagTemp = false;
-        tailOpen();   //открытие хвоста
+        //tailOpen();   //открытие хвоста
 
         wingPlaneLeft(90);
         wingPlaneRight(90);

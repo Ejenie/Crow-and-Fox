@@ -1,7 +1,6 @@
 //#include "APDS9960.h"
 #include "MLX90614.h"
 #include "leds.h"
-#include "servo.h"
 #include "motors.h"
 #include <stdio.h>
 #define timeCode 20
@@ -20,7 +19,7 @@ void setup() {
   init_player();
   rot.init_motor_rotation();
   rot.init_enc_rotation();
-  init_temp();
+  //init_temp();
   tail.init_enc_tail();
   tail.init_motor_tail();
   servo.init_servo();
@@ -29,8 +28,8 @@ void setup() {
 
   led.permanentLeds(pinLedEyeLeft, 0xDDAA00);
   led.permanentLeds(pinLedEyeRight, 0xDDAA00);
-  tail.calibrovka();
-  servo.Begin();
+  //tail.calibrovka();
+  servo.Begin();//*/
 }
 
 void loop() {
@@ -43,19 +42,20 @@ void loop() {
   int pos = fox.pos, countFox = fox.count - co;
   float objTemp = objectTemp(), ambTemp = ambientTemp();
 
-  bool kar = myabs(objTemp - ambTemp) >= 8.0;//((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
-  bool flagKar = (kar && (value / 4) > -5 && (value / 4) < 5);
-  Serial.print("kar:  ");
-  Serial.print(kar);
-  Serial.print("  flagKar:  ");
-  Serial.println(flagKar);
-  ServoPos sP = servo.positionServo(countFox, kar, flagKar);
+  bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
+  static bool kar0 = false;
+  if (kar)
+    kar0 = true; 
+  flagKar0 = (kar0 && (value / 4) > -5 && (value / 4) < 5);
+  ServoPos sP = servo.positionServo(countFox, kar0, flagKar);
   int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
       wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl,
       mH = sP.mH, mO = sP.mO, mS = sP.mS;
-  float u = rot.need_for_a_motor(flagKar, pos); //rot.turn_fox(pos);
+  float u = rot.need_for_a_motor(flagKar, pos);
 
-  tail.tailOpen(kar);
+  Serial.println(flagStr);
+
+  //tail.tailOpen(kar0);
   rot.motor_rot_set(u);
   servo.wingTurnRight(wTr);
   servo.wingTurnLeft(wTl);
