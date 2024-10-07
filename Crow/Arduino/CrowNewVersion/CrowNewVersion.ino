@@ -19,13 +19,12 @@ void setup() {
   init_player();
   rot.init_motor_rotation();
   rot.init_enc_rotation();
-  //init_temp();
+  init_temp();
   tail.init_enc_tail();
   tail.init_motor_tail();
   servo.init_servo();
 
   servo.basic_servo();
-
   led.permanentLeds(pinLedEyeLeft, 0xDDAA00);
   led.permanentLeds(pinLedEyeRight, 0xDDAA00);
   //tail.calibrovka();
@@ -45,15 +44,13 @@ void loop() {
   bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
   static bool kar0 = false;
   if (kar)
-    kar0 = true; 
+    kar0 = true;
   flagKar0 = (kar0 && (value / 4) > -5 && (value / 4) < 5);
-  ServoPos sP = servo.positionServo(countFox, kar0, flagKar);
+  ServoPos sP = servo.positionServo(countFox, kar0, flagKar0);
   int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
       wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl,
       mH = sP.mH, mO = sP.mO, mS = sP.mS;
-  float u = rot.need_for_a_motor(flagKar, pos);
-
-  Serial.println(flagStr);
+  float u = rot.need_for_a_motor(flagKar0, pos);
 
   //tail.tailOpen(kar0);
   rot.motor_rot_set(u);

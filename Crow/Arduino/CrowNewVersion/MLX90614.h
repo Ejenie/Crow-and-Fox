@@ -1,8 +1,7 @@
-/*#include <Wire.h>
+#include <Wire.h>
 #include <DFRobot_MLX90614.h>
 
 DFRobot_MLX90614_I2C sensor(0x00, &Wire);
-
 void init_temp() {
   while (NO_ERR != sensor.begin()) {    //выявление ошибок в подключении датчика тепла
     Serial.println("Communication with device failed, please check connection");
@@ -17,11 +16,9 @@ void init_temp() {
   sensor.enterSleepMode(false);
   delay(200);
 }
-
 float objectTemp() {
   return sensor.getObjectTempCelsius();
 }
-
 float ambientTemp() {
   return sensor.getAmbientTempCelsius();
 }
@@ -43,11 +40,9 @@ float ambientTemp() {
       sensor.enterSleepMode(false);
       delay(200);
     }
-
     float objectTemp() {
       return sensor.getObjectTempCelsius();
     }
-
     float ambientTemp() {
       return sensor.getAmbientTempCelsius();
     }

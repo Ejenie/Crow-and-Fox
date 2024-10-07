@@ -2,7 +2,7 @@
 #include <DFRobot_MLX90614.h>
 #include <DFRobotDFPlayerMini.h>
 #include <Servo.h>
-#include <ServoSmooth.h>
+//#include <ServoSmooth.h>
 #include <Motors.h>
 
 #include "eyes.h"
@@ -177,19 +177,21 @@ void setup() {
   head.write(0);
   opening.write(20);
 
-  motor(130);
-  delay(130);
-  while (TailCurrentLimit <= 100) {
-    TailCurrentLimit = analogRead(A2);
-    Serial.println("tail");
-    Serial.println(TailCurrentLimit);
-  }
-  encTail = 0;
-  motor(0);
+  /* motor(130);
+    delay(130);
+    while (TailCurrentLimit <= 100) {
+     TailCurrentLimit = analogRead(A2);
+     Serial.println("tail");
+     Serial.println(TailCurrentLimit);
+    }
+    encTail = 0;
+    motor(0);*/
   delay(5000);
 }
 
 void loop() {
+  permanentLeds(pinLedEyeLeft, 0xDDAA00);
+  permanentLeds(pinLedEyeRight, 0xDDAA00);
   for (int i = 0; i < 2; i++) {
     head.write(100);
     delay(700);
@@ -237,14 +239,15 @@ void loop() {
 
   lidRight.write(10);
   lidLeft.write(170);
-
-  head.write(0);
-  opening.write(20);
-  delay(3000);
-  permanentLeds(pinLedEyeLeft, 0xDDAA00);
-  permanentLeds(pinLedEyeRight, 0xDDAA00);
-  delay(3000);
+  
   permanentLeds(pinLedEyeLeft, 0xFF2277);
   permanentLeds(pinLedEyeRight, 0xFF2277);
-  delay(5000);
+  
+  head.write(0);
+  opening.write(20);
+  playerCrow.play(1);   //КАР! 
+  strela.write(500);    //выстрел сыром
+  delay(1000);
+  strela.write(90);
+  delay(20000);
 }
