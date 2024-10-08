@@ -1,6 +1,10 @@
 #include <Servo.h>
+#include "leds.h"
+Leds led;
+
 #include <DFRobotDFPlayerMini.h>
 DFRobotDFPlayerMini playerCrow;
+
 #define pinServoEyeLeft 13
 #define pinServoEyeRight 35
 #define pinServoWingPlaneLeft 9
@@ -11,7 +15,7 @@ DFRobotDFPlayerMini playerCrow;
 #define pinServoHand 8
 #define pinServoOpening 7
 
-bool flagKar0 = true;
+bool flagKar0 = false;
 
 void init_player() {
   playerCrow.begin(Serial2);  //инициализируем плеер
@@ -30,13 +34,14 @@ typedef struct {
   int mS;
 } ServoPos;
 
+Servo strela;
+
 class Myservo {
   private:
     Servo lidLeft;
     Servo lidRight;
     Servo opening;
     Servo head;
-    Servo strela;
     Servo wingTurnL;
     Servo wingTurnR;
     Servo wingPlaneL;
@@ -197,7 +202,7 @@ class Myservo {
         }
       }
     }
-    ServoPos positionServo(int countFox, bool kar, bool flagKar) {
+    ServoPos positionServo(int countFox, bool kar, bool flagKar, int handle) {
       ServoPos result;
       /*if (!countFox && !kar && !flagKar) {
         result.wTl = 10;
@@ -265,29 +270,27 @@ class Myservo {
         result.wPl = 90;
         result.mH = 100;
       }
-      if (flagKar) {
-        /* uint32_t timerP = millis();
-          if (millis - timerP > 2000)
-           playerCrow.play(1);*/
-        if (millis() % 2000 < 1000) {
-          result.mS = 500;
-        }
-        else if (millis() % 2000 < 2000) {
-          result.mS = 90;
-          
-        }
-        else {
-          flagKar0 = false;
-        }
-        if (millis() % 1200 < 600) {
+      if (handle == 2) {
+        led.permanentLeds(pinLedEyeLeft, 0xFF2277);
+        led.permanentLeds(pinLedEyeRight, 0xFF2277);
+        if (millis() % 1000 < 500) {
           result.mLr = 140;
-          result.mLl = 20;
+          result.mLl = 30;
         }
-        else if (millis() % 1200 < 1200) {
+        else if (millis() % 1000 < 1000) {
           result.mLr = 10;
           result.mLl = 170;
         }
       }
+      if (millis() % 1400 < 700) {
+        result.wTr = 160;
+        result.wTl = 20;
+      }
+      else if (millis() % 1400 < 700) {
+        result.wTr = 110;
+        result.wTl = 110;
+      }
       return result;
     }
+
 };

@@ -25,7 +25,7 @@ PosCount camera() {
   if (Serial3.available()) {
     result.pos = Serial3.read();
     static int pos_old = 0;
-    result.pos -= 80;
+    result.pos -= 40;
     if (result.pos > 100)
       result.pos = pos_old;
     result.pos = int((result.pos + pos_old) / 2);

@@ -7,7 +7,7 @@
 #define INA 39
 #define PWM 10
 
-int tail_lim = 6000;
+int tail_lim =3500;
 int tail_Clos = 10;
 
 int32_t encTail = 0;

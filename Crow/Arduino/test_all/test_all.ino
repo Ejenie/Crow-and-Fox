@@ -177,7 +177,7 @@ void setup() {
   head.write(0);
   opening.write(20);
 
-  /* motor(130);
+   /*motor(130);
     delay(130);
     while (TailCurrentLimit <= 100) {
      TailCurrentLimit = analogRead(A2);
@@ -185,69 +185,75 @@ void setup() {
      Serial.println(TailCurrentLimit);
     }
     encTail = 0;
-    motor(0);*/
-  delay(5000);
+    motor(0);
+  delay(5000);*/
 }
 
 void loop() {
-  permanentLeds(pinLedEyeLeft, 0xDDAA00);
-  permanentLeds(pinLedEyeRight, 0xDDAA00);
-  for (int i = 0; i < 2; i++) {
-    head.write(100);
-    delay(700);
-    head.write(0);
-    delay(700);
-  }
-  for (int i = 0; i < 4; i++) {
-    opening.write(0);
-    delay(400);
-    opening.write(50);
-    delay(400);
-  }
-  for (int i = 0; i < 3; i++) {
-    lidRight.write(140);
-    lidLeft.write(20);
-    delay(600);
-    lidRight.write(10);
-    lidLeft.write(170);
-    delay(600);
-  }
-  for (int i = 0; i < 3; i++) {
-    wingTurnLeft(20);
-    wingTurnRight(160);
-    delay(600);
-    wingTurnRight(110);
-    wingTurnLeft(110);
-    delay(600);
-  }
-  for (int i = 0; i < 3; i++) {
-    wingPlaneRight(90);
-    wingPlaneLeft(90);
-    delay(600);
-    wingPlaneRight(170);
-    wingPlaneLeft(10);
-    delay(600);
-  }
-  wingTurnLeft(10);    //от 10 до 160
-  wingTurnRight(170);   //от 170 до 70
-
-  wingPlaneLeft(10);
-  wingPlaneRight(170);
-
-  moveLidLeft(170);
-  moveLidRight(10);
-
-  lidRight.write(10);
-  lidLeft.write(170);
-  
-  permanentLeds(pinLedEyeLeft, 0xFF2277);
-  permanentLeds(pinLedEyeRight, 0xFF2277);
-  
-  head.write(0);
-  opening.write(20);
-  playerCrow.play(1);   //КАР! 
-  strela.write(500);    //выстрел сыром
-  delay(1000);
-  strela.write(90);
-  delay(20000);
+  motor(130);
+  delay(10000);
+//  permanentLeds(pinLedEyeLeft, 0xDDAA00);
+//  permanentLeds(pinLedEyeRight, 0xDDAA00);
+//  delay(10000);
+//  for (int i = 0; i < 2; i++) {
+//    head.write(100);
+//    delay(700);
+//    head.write(0);
+//    delay(700);
+//  }
+//  for (int i = 0; i < 5; i++) {
+//    opening.write(0);
+//    delay(400);
+//    opening.write(50);
+//    delay(400);
+//  }
+//  for (int i = 0; i < 5; i++) {
+//    lidRight.write(140);
+//    lidLeft.write(20);
+//    delay(600);
+//    lidRight.write(10);
+//    lidLeft.write(170);
+//    delay(600);
+//  }
+//  for (int i = 0; i < 5; i++) {
+//    wingTurnLeft(20);
+//    wingTurnRight(160);
+//    delay(600);
+//    wingTurnRight(110);
+//    wingTurnLeft(110);
+//    delay(600);
+//  }
+//  for (int i = 0; i < 5; i++) {
+//    wingPlaneRight(90);
+//    wingPlaneLeft(90);
+//    delay(600);
+//    wingPlaneRight(170);
+//    wingPlaneLeft(10);
+//    delay(600);
+//  }
+//  //tailOpen(); 
+//  delay(3000);
+//  wingTurnLeft(10);    //от 10 до 160
+//  wingTurnRight(170);   //от 170 до 70
+//
+//  wingPlaneLeft(10);
+//  wingPlaneRight(170);
+//
+//  moveLidLeft(170);
+//  moveLidRight(10);
+//
+//  lidRight.write(10);
+//  lidLeft.write(170);
+//  
+//  permanentLeds(pinLedEyeLeft, 0xFF2277);
+//  permanentLeds(pinLedEyeRight, 0xFF2277);
+//
+//  delay(2000);
+//  head.write(0);
+//  opening.write(20);
+//  playerCrow.play(1);   //КАР! 
+//  strela.write(500);    //выстрел сыром
+//  delay(1000);
+//  strela.write(90);
+//  delay(20000);
 }

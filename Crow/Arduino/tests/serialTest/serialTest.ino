@@ -6,4 +6,4 @@ void setup() {
 void loop() { 
    Serial3.available() ? Serial.println(Serial3.read()) : Serial.print("");
 
-}
+}  

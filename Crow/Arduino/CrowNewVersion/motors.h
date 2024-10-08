@@ -19,9 +19,8 @@ void ann_enc() {
     value++;
 }
 
+Motors motorA = Motors(11, 49, 43, 3, 41);  //pinPWM, pinA, pinB, interruptNumber, directionPin
 class Rotation {
-  private:
-    Motors motorA = Motors(11, 49, 43, 3, 41);  //pinPWM, pinA, pinB, interruptNumber, directionPin
   public:
     void init_motor_rotation() {
       pinMode(DTX, INPUT);
@@ -44,13 +43,18 @@ class Rotation {
         return 0;
       }
     }
-    int need_for_a_motor(bool flagKar, int pos) {
+    int need_for_a_motor(bool flagKar, int handle, int pos) {
+      int res = 0;
       if (!flagKar) {
-        return turn_fox(pos);
+        res = turn_fox(pos);
       }
-      else{
-        return 0;
+      else if (handle == 2 || flagKar) {
+        res = 0;
       }
+      else {
+        res = 0;
+      }
+      return res;
     }
 };
 
@@ -63,8 +67,8 @@ void isrTail() {
 }
 class Tail {
   private:
-    int tail_lim = 6000;
-    int tail_Clos = 10;
+    int tail_lim = 4000;
+    int tail_Clos = 500;
   public:
     void init_motor_tail() {
       pinMode(PWM, OUTPUT);
@@ -89,23 +93,25 @@ class Tail {
         digitalWrite(INA, 1);
       }
     }
-    void tailOpen(bool flag) {
-      if (flag) {
+    void tailOpen(bool flag, int handle) {
+      if (flag || handle) {
         while (myabs(encTail) < tail_lim)
           motor_tail(-20);
         while (myabs(encTail) > tail_lim)
-          motor_tail(190);
+          motor_tail(130);
         motor_tail(0);
       }
     }
-    void tailClosed() {
-      while (myabs(encTail) > tail_Clos) {
-        motor_tail(190);
+    void tailClosed(bool flag) {
+      if (flag) {
+        while (myabs(encTail) > tail_Clos) {
+          motor_tail(130);
+        }
+        while (myabs(encTail) < tail_Clos) {
+          motor_tail(-20);
+        }
+        motor_tail(0);
       }
-      while (myabs(encTail) < tail_Clos) {
-        motor_tail(-20);
-      }
-      motor_tail(0);
     }
     void calibrovka() {
       int tailCurrentLimit = 0;

@@ -203,7 +203,7 @@ void loop() {
   }
   if (Serial3.available() != 0) {   //запуск цикла отслеживания Лисы
     flagBegin  = false;
-    pos = Serial3.read() - 80;
+    pos = Serial3.read() - 40;
     pos = int((pos + pos_old) / 2);
     pos_old = pos;
     if ((pos < 0 && pos > -5) || (pos > 0 && pos < 5)) {    //позиция Лисы - центр
