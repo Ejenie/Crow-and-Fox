@@ -61,46 +61,37 @@ void loop() {
     fK = false;
     flagKar0 = true;
     playerCrow.play(1);   //КАР!
-    if (millis() % 2000 < 1000) {
-      strela.write(500);    //выстрел сыром
-    }
-    else {
-      strela.write(90);
-    }
+    strela.write(500);    //выстрел сыром
+    delay(1000);
+    strela.write(90);
     led.permanentLeds(pinLedEyeLeft, 0xFFFFFF);
     led.permanentLeds(pinLedEyeRight, 0xFFFFFF);
 
     for (int i = 0; i < 3; i++) {
-      if (millis() % 1200 < 600) {
-        servo.moveLidRight(140);
-        servo.moveLidLeft(20);
-      }
-      else {
-        servo.moveLidRight(10);
-        servo.moveLidLeft(170);
-      }
+      servo.moveLidRight(140);
+      servo.moveLidLeft(20);
+      delay(600);
+      servo.moveLidRight(10);
+      servo.moveLidLeft(170);
+      delay(600);
     }
 
     servo.moveHead(0);
     for (int i = 0; i < 3; i++) {
-      if (millis() % 800 < 400) {
-        servo.moveOpening(20);
-      }
-      else {
-        servo.moveOpening(50);
-      }
+      servo.moveOpening(20);
+      delay(400);
+      servo.moveOpening(50);
+      delay(400);
     }
     servo.wingTurnRight(90);
     servo.wingTurnLeft(150);
     for (int i = 0; i < 3; i++) {
-      if (millis() % 1200 < 600) {
-        servo.wingPlaneRight(90);
-        servo.wingPlaneLeft(90);
-      }
-      else {
-        servo.wingPlaneRight(170);
-        servo.wingPlaneLeft(10);
-      }
+      servo.wingPlaneRight(90);
+      servo.wingPlaneLeft(90);
+      delay(600);
+      servo.wingPlaneRight(170);
+      servo.wingPlaneLeft(10);
+      delay(600);
     }
     servo.wingTurnLeft(10);
     servo.wingTurnRight(170);
@@ -113,30 +104,26 @@ void loop() {
     servo.moveHead(0);
   }
   if (handle == 2) {
-    rot.motor_rot_stop()
+    rot.motor_rot_stop();
     led.permanentLeds(pinLedEyeLeft, 0xFF2277);
     led.permanentLeds(pinLedEyeRight, 0xFF2277);
 
     for (int i = 0; i < 3; i++) {
-      if (millis() % 1000 < 500) {
-        servo.moveLidRight(140);
-        servo.moveLidLeft(20);
-      }
-      else {
-        servo.moveLidRight(10);
-        servo.moveLidLeft(170);
-      }
+      servo.moveLidRight(140);
+      servo.moveLidLeft(20);
+      delay(500);
+      servo.moveLidRight(10);
+      servo.moveLidLeft(170);
+      delay(500);
     }
     tail.tailOpen(true, 0);
     for (int i = 0; i < 3; i++) {
-      if (millis() % 1400 < 700) {
-        servo.wingTurnLeft(20);
-        servo.wingTurnRight(160);
-      }
-      else {
-        servo.wingTurnRight(110);
-        servo.wingTurnLeft(110);
-      }
+      servo.wingTurnLeft(20);
+      servo.wingTurnRight(160);
+      delay(700);
+      servo.wingTurnRight(110);
+      servo.wingTurnLeft(110);
+      delay(700);
     }
     servo.wingTurnLeft(90);
     servo.wingTurnRight(110);

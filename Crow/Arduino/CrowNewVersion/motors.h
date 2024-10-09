@@ -68,8 +68,8 @@ void isrTail() {
 }
 class Tail {
   private:
-    int tail_lim = 4000;
-    int tail_Clos = 500;
+    int tail_lim = 3500;
+    int tail_Clos = 700;
   public:
     void init_motor_tail() {
       pinMode(PWM, OUTPUT);
@@ -95,24 +95,22 @@ class Tail {
       }
     }
     void tailOpen(bool flag, int handle) {
-      if (flag || handle) {
-        while (myabs(encTail) < tail_lim)
-          motor_tail(-20);
-        while (myabs(encTail) > tail_lim)
-          motor_tail(130);
-        motor_tail(0);
+      while (myabs(encTail) < tail_lim){
+        Serial.println(encTail);
+        motor_tail(-20);
       }
+      while (myabs(encTail) > tail_lim)
+        motor_tail(130);
+      motor_tail(0);
     }
     void tailClosed(bool flag) {
-      if (flag) {
-        while (myabs(encTail) > tail_Clos) {
-          motor_tail(130);
-        }
-        while (myabs(encTail) < tail_Clos) {
-          motor_tail(-20);
-        }
-        motor_tail(0);
+      while (myabs(encTail) > tail_Clos) {
+        motor_tail(130);
       }
+      while (myabs(encTail) < tail_Clos) {
+        motor_tail(-20);
+      }
+      motor_tail(0);
     }
     void calibrovka() {
       int tailCurrentLimit = 0;

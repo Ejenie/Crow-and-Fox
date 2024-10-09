@@ -1,20 +1,20 @@
 import sensor, time, math, pyb
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
-sensor.set_framesize(sensor.QQVGA)
-sensor.skip_frames(time = 2000)
+sensor.set_framesize(sensor.QQQVGA)
+
 sensor.set_auto_gain(False)
 sensor.set_auto_whitebal(False)
 
 clock = time.clock()
 serial = pyb.UART(3, 9600, timeout = 100, timeout_char = 100)
 serial.init(9600, bits=8, parity=None, stop=1, timeout_char=100)
-thresholds_first = [(20, 100, 3, 88, 21, 127)
+thresholds_first = [(40, 86, 23, 46, 31, 110)
 ]
 lmin = [i for i in range(thresholds_first[0][0]+1)]
 lmax = [i for i in range(thresholds_first[0][0], thresholds_first[0][1]+1)]
-thresholds_now = [(lmin[i], 100, 3, 88, 21, 127) for i in range(len(lmin))]
-thresholds_now+=[(lmax[i], 100, 3, 88, 21, 127)for i in range(len(lmax))]
+thresholds_now = [(lmin[i], 86, 23, 46, 31, 110) for i in range(len(lmin))]
+thresholds_now+=[(lmax[i], 86, 23, 46, 31, 110)for i in range(len(lmax))]
 print(*lmin)
 print(*lmax)
 
@@ -46,4 +46,4 @@ while True:
         img.draw_cross(mxBlob_first.cx(), mxBlob_first.cy(), size = 5, color = (255,0,0), thickness = 5)
         x = mxBlob_first.cx()
         serial.writechar(x)
-        print(x-80)
+        print(x)
