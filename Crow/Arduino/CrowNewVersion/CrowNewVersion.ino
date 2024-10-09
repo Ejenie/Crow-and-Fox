@@ -45,53 +45,62 @@ void loop() {
   bool kar = ((ambTemp > 600.0 && objTemp >= -7.0)  || (ambTemp > 18.0 && (objTemp - ambTemp) >= 10.0));
   static bool kar0 = false;
   static bool fK = true;
+  static bool flagKar0  = false;
   if (kar)
     kar0 = true;
-  ServoPos sP = servo.positionServo(countFox, kar0, flagKar0, 0  );
+  if (fK)
+    flagKar0 = (kar0 && (value / 4) > -10 && (value / 4) < 0);
+  ServoPos sP = servo.positionServo(countFox, kar0, flagKar0, 0);
   int wTr = sP.wTr, wTl = sP.wTl, wPr = sP.wPr,
       wPl = sP.wPl, mLr = sP.mLr, mLl = sP.mLl,
       mH = sP.mH, mO = sP.mO, mS = sP.mS;
-  if (fK)
-    flagKar0 = (kar0 && (value / 4) > -10 && (value / 4) < 0)
-               ;
 
   float u = rot.need_for_a_motor(flagKar0, handle, pos);
-  if (flagKar0 && fK) {
-    motorA.stop();
+  if ((flagKar0 || handle == 1) && fK) {
+    rot.motor_rot_stop();
     fK = false;
     flagKar0 = true;
     playerCrow.play(1);   //КАР!
-    strela.write(500);    //выстрел сыром
-    delay(1000);
-    strela.write(90);
+    if (millis() % 2000 < 1000) {
+      strela.write(500);    //выстрел сыром
+    }
+    else {
+      strela.write(90);
+    }
     led.permanentLeds(pinLedEyeLeft, 0xFFFFFF);
     led.permanentLeds(pinLedEyeRight, 0xFFFFFF);
 
     for (int i = 0; i < 3; i++) {
-      servo.moveLidRight(140);
-      servo.moveLidLeft(20);
-      delay(600);
-      servo.moveLidRight(10);
-      servo.moveLidLeft(170);
-      delay(600);
+      if (millis() % 1200 < 600) {
+        servo.moveLidRight(140);
+        servo.moveLidLeft(20);
+      }
+      else {
+        servo.moveLidRight(10);
+        servo.moveLidLeft(170);
+      }
     }
 
     servo.moveHead(0);
     for (int i = 0; i < 3; i++) {
-      servo.moveOpening(20);
-      delay(400);
-      servo.moveOpening(50);
-      delay(400);
+      if (millis() % 800 < 400) {
+        servo.moveOpening(20);
+      }
+      else {
+        servo.moveOpening(50);
+      }
     }
     servo.wingTurnRight(90);
     servo.wingTurnLeft(150);
     for (int i = 0; i < 3; i++) {
-      servo.wingPlaneRight(90);
-      servo.wingPlaneLeft(90);
-      delay(600);
-      servo.wingPlaneRight(170);
-      servo.wingPlaneLeft(10);
-      delay(600);
+      if (millis() % 1200 < 600) {
+        servo.wingPlaneRight(90);
+        servo.wingPlaneLeft(90);
+      }
+      else {
+        servo.wingPlaneRight(170);
+        servo.wingPlaneLeft(10);
+      }
     }
     servo.wingTurnLeft(10);
     servo.wingTurnRight(170);
@@ -104,26 +113,30 @@ void loop() {
     servo.moveHead(0);
   }
   if (handle == 2) {
-    motorA.stop();
+    rot.motor_rot_stop()
     led.permanentLeds(pinLedEyeLeft, 0xFF2277);
     led.permanentLeds(pinLedEyeRight, 0xFF2277);
 
     for (int i = 0; i < 3; i++) {
-      servo.moveLidRight(140);
-      servo.moveLidLeft(20);
-      delay(500);
-      servo.moveLidRight(10);
-      servo.moveLidLeft(170);
-      delay(500);
+      if (millis() % 1000 < 500) {
+        servo.moveLidRight(140);
+        servo.moveLidLeft(20);
+      }
+      else {
+        servo.moveLidRight(10);
+        servo.moveLidLeft(170);
+      }
     }
     tail.tailOpen(true, 0);
     for (int i = 0; i < 3; i++) {
-      servo.wingTurnLeft(20);
-      servo.wingTurnRight(160);
-      delay(700);
-      servo.wingTurnRight(110);
-      servo.wingTurnLeft(110);
-      delay(700);
+      if (millis() % 1400 < 700) {
+        servo.wingTurnLeft(20);
+        servo.wingTurnRight(160);
+      }
+      else {
+        servo.wingTurnRight(110);
+        servo.wingTurnLeft(110);
+      }
     }
     servo.wingTurnLeft(90);
     servo.wingTurnRight(110);

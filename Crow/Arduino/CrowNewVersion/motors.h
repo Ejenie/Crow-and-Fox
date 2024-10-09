@@ -19,8 +19,9 @@ void ann_enc() {
     value++;
 }
 
-Motors motorA = Motors(11, 49, 43, 3, 41);  //pinPWM, pinA, pinB, interruptNumber, directionPin
 class Rotation {
+  private:
+    Motors motorA = Motors(11, 49, 43, 3, 41);  //pinPWM, pinA, pinB, interruptNumber, directionPin
   public:
     void init_motor_rotation() {
       pinMode(DTX, INPUT);

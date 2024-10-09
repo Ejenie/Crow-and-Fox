@@ -15,8 +15,6 @@ DFRobotDFPlayerMini playerCrow;
 #define pinServoHand 8
 #define pinServoOpening 7
 
-bool flagKar0 = false;
-
 void init_player() {
   playerCrow.begin(Serial2);  //инициализируем плеер
   playerCrow.volume(30);      //от 10 до 30
