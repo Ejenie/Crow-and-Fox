@@ -23,11 +23,11 @@ void setup() {
   tail.init_enc_tail();
   tail.init_motor_tail();
   servo.init_servo();
-
+ 
   servo.basic_servo();
   led.permanentLeds(pinLedEyeLeft, 0xDDAA00);
   led.permanentLeds(pinLedEyeRight, 0xDDAA00);
-  tail.calibrovka();
+  tail.calibrovka();   
   servo.Begin();//*/
 }
 
@@ -46,7 +46,7 @@ void loop() {
   static bool kar0 = false;
   static bool fK = true;
   static bool flagKar0  = false;
-  if (kar)
+  if ( (kar || handle == 1))
     kar0 = true;
   if (fK)
     flagKar0 = (kar0 && (value / 4) > -10 && (value / 4) < 0);
@@ -56,7 +56,7 @@ void loop() {
       mH = sP.mH, mO = sP.mO, mS = sP.mS;
 
   float u = rot.need_for_a_motor(flagKar0, handle, pos);
-  if ((flagKar0 || handle == 1) && fK) {
+  if (flagKar0  && fK) {
     rot.motor_rot_stop();
     fK = false;
     flagKar0 = true;
@@ -97,11 +97,13 @@ void loop() {
     servo.wingTurnRight(170);
     led.permanentLeds(pinLedEyeLeft, 0x2222FF);
     led.permanentLeds(pinLedEyeRight, 0x2222FF);
-    tail.tailClosed(true);
 
     servo.moveLidRight(50);
     servo.moveLidLeft(105);
     servo.moveHead(0);
+    servo.moveLidRight(50);
+    servo.moveLidLeft(85);
+    tail.tailClosed(true);
   }
   if (handle == 2) {
     rot.motor_rot_stop();
@@ -128,16 +130,21 @@ void loop() {
     servo.wingTurnLeft(90);
     servo.wingTurnRight(110);
   }
-
-  if (kar0) tail.tailOpen(kar0, 0);
+  static bool fT = true;
+  if (kar0 && fT) {
+    tail.tailOpen(kar0, 0);
+    fT = false;
+  }
   rot.motor_rot_set (u);
-  servo.wingTurnRight(wTr);
-  servo.wingTurnLeft(wTl);
-  servo.wingPlaneRight(wPr);
-  servo.wingPlaneLeft(wPl);
-  servo.moveLidRight(mLr);
-  servo.moveLidLeft(mLl);
-  servo.moveHead(mH);
-  servo.moveOpening(mO);
-  servo.moveStrela(mS);
+  if (!flagKar0) {
+    servo.wingTurnRight(wTr);
+    servo.wingTurnLeft(wTl);
+    servo.wingPlaneRight(wPr);
+    servo.wingPlaneLeft(wPl);
+    servo.moveLidRight(mLr);
+    servo.moveLidLeft(mLl);
+    servo.moveHead(mH);
+    servo.moveOpening(mO);
+    servo.moveStrela(mS);
+  }
 }//*/

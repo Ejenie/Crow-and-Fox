@@ -15,7 +15,7 @@ void setup()
 }
 void loop()
 {
-  myDFPlayer.play(2);             //я умею показывать различные эмоции
+  myDFPlayer.play(1);             //я умею показывать различные эмоции
   delay(3000);
 }
 

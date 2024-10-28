@@ -9,12 +9,12 @@ sensor.set_auto_whitebal(False)
 clock = time.clock()
 serial = pyb.UART(3, 9600, timeout = 100, timeout_char = 100)
 serial.init(9600, bits=8, parity=None, stop=1, timeout_char=100)
-thresholds_first = [(40, 86, 23, 46, 31, 110)
+thresholds_first = [(47, 86, 13, 90, 7, 102)
 ]
 lmin = [i for i in range(thresholds_first[0][0]+1)]
 lmax = [i for i in range(thresholds_first[0][0], thresholds_first[0][1]+1)]
-thresholds_now = [(lmin[i], 86, 23, 46, 31, 110) for i in range(len(lmin))]
-thresholds_now+=[(lmax[i], 86, 23, 46, 31, 110)for i in range(len(lmax))]
+thresholds_now = [(lmin[i], 86, 13, 90, 7, 102) for i in range(len(lmin))]
+thresholds_now+=[(lmax[i], 86, 13, 90, 7, 102)for i in range(len(lmax))]
 print(*lmin)
 print(*lmax)
 
@@ -33,7 +33,7 @@ while True:
 
     centre_servo = 0
     for blob in img.find_blobs(
-        thresholds_now, roi = (0, h*2 //3,  w, h),
+        thresholds_now, roi = (0, h*2//3,  w, h),
         pixels_threshold = 100,
         area_threshold = 100,
         merge = True
